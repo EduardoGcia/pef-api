@@ -3,40 +3,23 @@
 import csv
 import copy
 import argparse
+import ast
 import itertools
 from collections import Counter
 from collections import deque
+from numpy import loadtxt
 
 import cv2 as cv
 import numpy as np
 import mediapipe as mp
 import base64
 
-# Defines the arguments used by the algorithm
-def get_args():
-    parser = argparse.ArgumentParser()
 
-    parser.add_argument("--device", type=int, default=0)
-    parser.add_argument("--width", help='cap width', type=int, default=960)
-    parser.add_argument("--height", help='cap height', type=int, default=540)
-
-    parser.add_argument('--use_static_image_mode', action='store_true')
-    parser.add_argument("--min_detection_confidence",
-                        help='min_detection_confidence',
-                        type=float,
-                        default=0.7)
-    parser.add_argument("--min_tracking_confidence",
-                        help='min_tracking_confidence',
-                        type=int,
-                        default=0.5)
-
-    args = parser.parse_args()
-
-    return args
-
-
-def modelo_prueba(frame):
-    #print(frame)
+def modelo_prueba(frame, palabra):
+    #print(palabra)
+    with open("datos_recibidos.txt", "r") as archivo:
+        contenido = archivo.read()
+    fingers_done = ast.literal_eval(contenido)
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
     # Defines the name for each keypoint in the hand
@@ -63,12 +46,8 @@ def modelo_prueba(frame):
         19: "finger meñique - Articulación interfalángica distal (Pinky_dip)",
         20: "finger meñique - Punta del finger (Pinky_tip)"
     }
+    #fingers_done = [False, False, False, False, False]
     gesture_number = -1
-    
-
-
-
-
 
     image = np.frombuffer(base64.b64decode(frame), np.uint8)
     image = cv.imdecode(image, cv.IMREAD_COLOR)
@@ -79,8 +58,9 @@ def modelo_prueba(frame):
     image.flags.writeable = True
 
     messages = []
-    # print(messages)
-    # print("------------------")
+    fingers_done_return = [False, False, False, False, False]
+    # #print(messages)
+    # #print("------------------")
     landmarks_list = []
     if results.multi_hand_landmarks:
         for landmarks in results.multi_hand_landmarks:
@@ -93,9 +73,9 @@ def modelo_prueba(frame):
             base_landmark = landmarks_list[0]
             pre_processed_landmark_list = pre_process_landmark(
                     landmarks_list)
-            gesture_data = load_gesture_data(gesture_number)
+            gesture_data = load_gesture_data(palabra)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
-            keypoints_to_move = get_keypoints_to_move(difference)
+            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done)
             movement_direction = determine_movement_direction(keypoints_to_move)
             #gesture_landmark_list = reverse_pre_process_landmark(gesture_data[0], base_landmark)
             if len(movement_direction) == 0:
@@ -166,9 +146,10 @@ def modelo_prueba(frame):
                         # y_position += 20
     else:
         messages.append("No hay mano detectada")
-    print(messages)
-    # print("------------------")
-    return messages
+    ##print(messages)
+    ##print(fingers_done_return)
+    # #print("------------------")
+    return [messages, fingers_done_return]
 
 
 
@@ -290,7 +271,7 @@ def load_gesture_data(gesture_number):
         for row in csvreader:
             if len(row) < 2:
                 continue
-            if int(row[0]) == 97:
+            if int(row[0]) == ord(gesture_number.lower()):
                 # The first column is the gesture number, so we skip that column
                 gesture_data.append([float(cell) for cell in row[1:]])
     return gesture_data
@@ -318,18 +299,77 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 
 
 # Function to determine which keypoints should be moved based on differences
-def get_keypoints_to_move(difference, treshold=0.17):
+def get_keypoints_to_move(difference, fingers_done):
+    ##print(fingers_done)
+    ##print("------------------")
     keypoints_to_move = []
-    
+    fingers_done_count = [True, True, True, True, True]
+    treshold=0.2
+    treshold_done=1
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
+        if 1 <= i <= 4:
+            if fingers_done[0]:
+                #print(i, diff_magnitude, "treshold")
+                if diff_magnitude > treshold_done:
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[0] = False
+            else:
+                #print(i, diff_magnitude, "tresh")
+                if diff_magnitude > treshold:
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[0] = False
+        elif 5 <= i <= 8:
+            if fingers_done[1]:
+                #print(i, diff_magnitude, "treshold")
+                if diff_magnitude > treshold_done:
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[1] = False
+            else:
+                if diff_magnitude > treshold:
+                    #print(i, diff_magnitude, "tresh")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[1] = False
+        elif 9 <= i <= 12:
+            if fingers_done[2]:
+                if diff_magnitude > treshold_done:
+                    #print(i, diff_magnitude, "treshold")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[2] = False
+            else:
+                if diff_magnitude > treshold:
+                    #print(i, diff_magnitude, "tresh")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[2] = False
+        elif 13 <= i <= 16:
+            if fingers_done[3]:
+                if diff_magnitude > treshold_done:
+                    #print(i, diff_magnitude, "treshold")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[3] = False
+            else:
+                if diff_magnitude > treshold:
+                    #print(i, diff_magnitude, "tresh")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[3] = False
+        elif 17 <= i <= 20:
+            if fingers_done[4]:
+                if diff_magnitude > treshold_done:
+                    #print(i, diff_magnitude, "treshold")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[4] = False
+            else:
+                if diff_magnitude > treshold:
+                    #print(i, diff_magnitude, "tresh")
+                    keypoints_to_move.append([i, diff_x, diff_y])
+                    fingers_done_count[4] = False
+            
+    for i in range(0, len(fingers_done_count)):
+        if fingers_done_count[i]:
+            fingers_done[i] = True
         
-        # If the magnitude of the difference is greater than the threshold, consider it a keypoints to move
-        if diff_magnitude > treshold:
-            keypoints_to_move.append([i, diff_x, diff_y])
-    
-    return keypoints_to_move
+    return keypoints_to_move, fingers_done
 
 
 # Determine the direction of movement based on the difference in x and y coordinates
@@ -353,6 +393,3 @@ def determine_movement_direction(keypoints_to_move):
 
 if __name__ == '__main__':
     modelo_prueba()
-
-
-

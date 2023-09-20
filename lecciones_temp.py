@@ -12,7 +12,7 @@ abecedario = [
         'id': 1,
         'titulo': 'A',
         'imagen': 'a.png',
-        'video': 'a.mp4',
+        'video': 'A.jpeg',
         'definicion': 'La letra A es la primera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -21,7 +21,7 @@ abecedario = [
         'id': 2,
         'titulo': 'B',
         'imagen': 'b.png',
-        'video': 'b.mp4',
+        'video': 'B copy.png',
         'definicion': 'La letra B es la segunda letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -30,7 +30,7 @@ abecedario = [
         'id': 3,
         'titulo': 'C',
         'imagen': 'c.png',
-        'video': 'c.mp4',
+        'video': 'C copy.png',
         'definicion': 'La letra C es la tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -39,7 +39,7 @@ abecedario = [
         'id': 4,
         'titulo': 'D',
         'imagen': 'd.png',
-        'video': 'd.mp4',
+        'video': 'D copy.png',
         'definicion': 'La letra D es la cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -48,7 +48,7 @@ abecedario = [
         'id': 5,
         'titulo': 'E',
         'imagen': 'e.png',
-        'video': 'e.mp4',
+        'video': 'E copy.png',
         'definicion': 'La letra E es la quinta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -57,7 +57,7 @@ abecedario = [
         'id': 6,
         'titulo': 'F',
         'imagen': 'f.png',
-        'video': 'f.mp4',
+        'video': 'F copy.png',
         'definicion': 'La letra F es la sexta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -65,8 +65,8 @@ abecedario = [
     {
         'id': 7,
         'titulo': 'G',
-        'imagen': 'l.png',
-        'video': 'g.mp4',
+        'imagen': 'g.png',
+        'video': 'G copy.png',
         'definicion': 'La letra G es la séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -75,7 +75,7 @@ abecedario = [
         'id': 8,
         'titulo': 'H',
         'imagen': 'h.png',
-        'video': 'h.mp4',
+        'video': 'H copy.png',
         'definicion': 'La letra H es la octava letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -84,26 +84,8 @@ abecedario = [
         'id': 9,
         'titulo': 'I',
         'imagen': 'i.png',
-        'video': 'i.mp4',
+        'video': 'I copy.png',
         'definicion': 'La letra I es la novena letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 10,
-        'titulo': 'J',
-        'imagen': 'j.png',
-        'video': 'j.mp4',
-        'definicion': 'La letra J es la décima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 11,
-        'titulo': 'K',
-        'imagen': 'k.png',
-        'video': 'k.mp4',
-        'definicion': 'La letra K es la undécima letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -111,17 +93,8 @@ abecedario = [
         'id': 12,
         'titulo': 'L',
         'imagen': 'l.png',
-        'video': 'l.mp4',
+        'video': 'L copy.png',
         'definicion': 'La letra L es la duoécima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 13,
-        'titulo': 'LL',
-        'imagen': 'll.png',
-        'video': 'll.mp4',
-        'definicion': 'La letra LL es la décima tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -129,7 +102,7 @@ abecedario = [
         'id': 14,
         'titulo': 'M',
         'imagen': 'm.png',
-        'video': 'm.mp4',
+        'video': 'M copy.png',
         'definicion': 'La letra M es la décima cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -138,17 +111,8 @@ abecedario = [
         'id': 15,
         'titulo': 'N',
         'imagen': 'n.png',
-        'video': 'n.mp4',
+        'video': 'N copy.png',
         'definicion': 'La letra N es la décima quinta letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 16,
-        'titulo': 'Ñ',
-        'imagen': 'ñ.png',
-        'video': 'ñ.mp4',
-        'definicion': 'La letra Ñ es la décima sexta letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -156,7 +120,7 @@ abecedario = [
         'id': 17,
         'titulo': 'O',
         'imagen': 'o.png',
-        'video': 'o.mp4',
+        'video': 'O copy.png',
         'definicion': 'La letra O es la décima séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -165,17 +129,8 @@ abecedario = [
         'id': 18,
         'titulo': 'P',
         'imagen': 'p.png',
-        'video': 'p.mp4',
+        'video': 'P copy.png',
         'definicion': 'La letra P es la décima octava letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 19,
-        'titulo': 'Q',
-        'imagen': 'q.png',
-        'video': 'q.mp4',
-        'definicion': 'La letra Q es la décima novena letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -183,17 +138,8 @@ abecedario = [
         'id': 20,
         'titulo': 'R',
         'imagen': 'r.png',
-        'video': 'r.mp4',
+        'video': 'R copy.png',
         'definicion': 'La letra R es la vigésima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 21,
-        'titulo': 'RR',
-        'imagen': 'rr.png',
-        'video': 'rr.mp4',
-        'definicion': 'La letra RR es la vigésima primera letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -201,7 +147,7 @@ abecedario = [
         'id': 22,
         'titulo': 'S',
         'imagen': 's.png',
-        'video': 's.mp4',
+        'video': 'S copy.png',
         'definicion': 'La letra S es la vigésima segunda letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -210,7 +156,7 @@ abecedario = [
         'id': 23,
         'titulo': 'T',
         'imagen': 't.png',
-        'video': 't.mp4',
+        'video': 'T copy.png',
         'definicion': 'La letra T es la vigésima tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -219,7 +165,7 @@ abecedario = [
         'id': 24,
         'titulo': 'U',
         'imagen': 'u.png',
-        'video': 'u.mp4',
+        'video': 'U copy.png',
         'definicion': 'La letra U es la vigésima cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -228,7 +174,7 @@ abecedario = [
         'id': 25,
         'titulo': 'V',
         'imagen': 'v.png',
-        'video': 'v.mp4',
+        'video': 'V copy.png',
         'definicion': 'La letra V es la vigésima quinta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -237,17 +183,8 @@ abecedario = [
         'id': 26,
         'titulo': 'W',
         'imagen': 'w.png',
-        'video': 'w.mp4',
+        'video': 'W copy.png',
         'definicion': 'La letra W es la vigésima sexta letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 27,
-        'titulo': 'X',
-        'imagen': 'x.png',
-        'video': 'x.mp4',
-        'definicion': 'La letra X es la vigésima séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -255,17 +192,8 @@ abecedario = [
         'id': 28,
         'titulo': 'Y',
         'imagen': 'y.png',
-        'video': 'y.mp4',
+        'video': 'Y copy.png',
         'definicion': 'La letra Y es la vigésima octava letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 29,
-        'titulo': 'Z',
-        'imagen': 'z.png',
-        'video': 'z.mp4',   
-        'definicion': 'La letra Z es la vigésima novena letra del abecedario',
         'imagen64': '',
         'video64': ''
     }
@@ -276,7 +204,7 @@ secciones = [
         'id': 1,
         'titulo': 'A',
         'imagen': 'a.png',
-        'video': 'a.mp4',
+        'video': 'a.png',
         'definicion': 'La letra A es la primera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -285,7 +213,7 @@ secciones = [
         'id': 2,
         'titulo': 'B',
         'imagen': 'b.png',
-        'video': 'b.mp4',
+        'video': 'b.png',
         'definicion': 'La letra B es la segunda letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -294,7 +222,7 @@ secciones = [
         'id': 3,
         'titulo': 'C',
         'imagen': 'c.png',
-        'video': 'c.mp4',
+        'video': 'c.png',
         'definicion': 'La letra C es la tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -303,7 +231,7 @@ secciones = [
         'id': 4,
         'titulo': 'D',
         'imagen': 'd.png',
-        'video': 'd.mp4',
+        'video': 'd.png',
         'definicion': 'La letra D es la cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -312,7 +240,7 @@ secciones = [
         'id': 5,
         'titulo': 'E',
         'imagen': 'e.png',
-        'video': 'e.mp4',
+        'video': 'e.png',
         'definicion': 'La letra E es la quinta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -321,7 +249,7 @@ secciones = [
         'id': 6,
         'titulo': 'F',
         'imagen': 'f.png',
-        'video': 'f.mp4',
+        'video': 'f.png',
         'definicion': 'La letra F es la sexta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -330,7 +258,7 @@ secciones = [
         'id': 7,
         'titulo': 'G',
         'imagen': 'g.png',
-        'video': 'g.mp4',
+        'video': 'g.png',
         'definicion': 'La letra G es la séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -339,7 +267,7 @@ secciones = [
         'id': 8,
         'titulo': 'H',
         'imagen': 'h.png',
-        'video': 'h.mp4',
+        'video': 'h.png',
         'definicion': 'La letra H es la octava letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -348,26 +276,8 @@ secciones = [
         'id': 9,
         'titulo': 'I',
         'imagen': 'i.png',
-        'video': 'i.mp4',
+        'video': 'i.png',
         'definicion': 'La letra I es la novena letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 10,
-        'titulo': 'J',
-        'imagen': 'j.png',
-        'video': 'j.mp4',
-        'definicion': 'La letra J es la décima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 11,
-        'titulo': 'K',
-        'imagen': 'k.png',
-        'video': 'k.mp4',
-        'definicion': 'La letra K es la undécima letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -375,17 +285,8 @@ secciones = [
         'id': 12,
         'titulo': 'L',
         'imagen': 'l.png',
-        'video': 'l.mp4',
+        'video': 'l.png',
         'definicion': 'La letra L es la duoécima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 13,
-        'titulo': 'LL',
-        'imagen': 'll.png',
-        'video': 'll.mp4',
-        'definicion': 'La letra LL es la décima tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -393,7 +294,7 @@ secciones = [
         'id': 14,
         'titulo': 'M',
         'imagen': 'm.png',
-        'video': 'm.mp4',
+        'video': 'm.png',
         'definicion': 'La letra M es la décima cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -402,17 +303,8 @@ secciones = [
         'id': 15,
         'titulo': 'N',
         'imagen': 'n.png',
-        'video': 'n.mp4',
+        'video': 'n.png',
         'definicion': 'La letra N es la décima quinta letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 16,
-        'titulo': 'Ñ',
-        'imagen': 'ñ.png',
-        'video': 'ñ.mp4',
-        'definicion': 'La letra Ñ es la décima sexta letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -420,7 +312,7 @@ secciones = [
         'id': 17,
         'titulo': 'O',
         'imagen': 'o.png',
-        'video': 'o.mp4',
+        'video': 'o.png',
         'definicion': 'La letra O es la décima séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -429,17 +321,8 @@ secciones = [
         'id': 18,
         'titulo': 'P',
         'imagen': 'p.png',
-        'video': 'p.mp4',
+        'video': 'p.png',
         'definicion': 'La letra P es la décima octava letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 19,
-        'titulo': 'Q',
-        'imagen': 'q.png',
-        'video': 'q.mp4',
-        'definicion': 'La letra Q es la décima novena letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -447,17 +330,8 @@ secciones = [
         'id': 20,
         'titulo': 'R',
         'imagen': 'r.png',
-        'video': 'r.mp4',
+        'video': 'r.png',
         'definicion': 'La letra R es la vigésima letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 21,
-        'titulo': 'RR',
-        'imagen': 'rr.png',
-        'video': 'rr.mp4',
-        'definicion': 'La letra RR es la vigésima primera letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -465,7 +339,7 @@ secciones = [
         'id': 22,
         'titulo': 'S',
         'imagen': 's.png',
-        'video': 's.mp4',
+        'video': 's.png',
         'definicion': 'La letra S es la vigésima segunda letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -474,7 +348,7 @@ secciones = [
         'id': 23,
         'titulo': 'T',
         'imagen': 't.png',
-        'video': 't.mp4',
+        'video': 't.png',
         'definicion': 'La letra T es la vigésima tercera letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -483,7 +357,7 @@ secciones = [
         'id': 24,
         'titulo': 'U',
         'imagen': 'u.png',
-        'video': 'u.mp4',
+        'video': 'u.png',
         'definicion': 'La letra U es la vigésima cuarta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -492,7 +366,7 @@ secciones = [
         'id': 25,
         'titulo': 'V',
         'imagen': 'v.png',
-        'video': 'v.mp4',
+        'video': 'v.png',
         'definicion': 'La letra V es la vigésima quinta letra del abecedario',
         'imagen64': '',
         'video64': ''
@@ -501,17 +375,8 @@ secciones = [
         'id': 26,
         'titulo': 'W',
         'imagen': 'w.png',
-        'video': 'w.mp4',
+        'video': 'w.png',
         'definicion': 'La letra W es la vigésima sexta letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 27,
-        'titulo': 'X',
-        'imagen': 'x.png',
-        'video': 'x.mp4',
-        'definicion': 'La letra X es la vigésima séptima letra del abecedario',
         'imagen64': '',
         'video64': ''
     },
@@ -519,17 +384,8 @@ secciones = [
         'id': 28,
         'titulo': 'Y',
         'imagen': 'y.png',
-        'video': 'y.mp4',
+        'video': 'y.png',
         'definicion': 'La letra Y es la vigésima octava letra del abecedario',
-        'imagen64': '',
-        'video64': ''
-    },
-    {
-        'id': 29,
-        'titulo': 'Z',
-        'imagen': 'z.png',
-        'video': 'z.mp4',   
-        'definicion': 'La letra Z es la vigésima novena letra del abecedario',
         'imagen64': '',
         'video64': ''
     }

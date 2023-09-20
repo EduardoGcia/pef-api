@@ -7,7 +7,7 @@ import re
 # Importar los arrays de las lecciones de lecciones.py
 
 from lecciones import lecciones
-from lecciones import abecedario
+from lecciones_temp import abecedario
 from lecciones import saludos
 from lecciones_temp import secciones
 
@@ -40,14 +40,16 @@ def get_image_as_base64(image_filename):
 def process_frame():
     try:
         frame = request.json.get('frame')
-        """ palabra = request.json.get('palabra')
-        print(palabra) """
+        palabra = request.json.get('palabra')
+        #fingers_done = request.json.get('fingersDone')
+        #print(palabra)
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
+        respuesta= modelo_prueba(frame, palabra)
+        print(respuesta[1])
         with open('datos_recibidos.txt', 'w') as archivo:
-            archivo.write(frame)
-        respuesta = modelo_prueba(frame)
-        return jsonify(respuesta)
+            archivo.write(str(respuesta[1]))
+        return jsonify(respuesta[0])
     except Exception as e:
         return jsonify({"error": str(e)})
 
@@ -88,6 +90,7 @@ def get_lecciones(id_leccion, id_seccion):
         for item in abecedario:
             if item['id'] == id_seccion:
                 item['imagen64'] = get_image_as_base64(item['imagen'])
+                item['video64'] = get_image_as_base64(item['video'])
                 """ item['video'] = get_video_as_base64(item['video_filename']) """
                 return jsonify(item)
         return jsonify({"error": "Letra no encontrada."}), 404
