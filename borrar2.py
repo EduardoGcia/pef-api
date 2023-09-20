@@ -305,7 +305,7 @@ def get_keypoints_to_move(difference, fingers_done):
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
     treshold=0.2
-    treshold_done=1
+    treshold_done=0.3
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5

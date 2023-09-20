@@ -90,7 +90,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 12,
+        'id': 10,
         'titulo': 'L',
         'imagen': 'l.png',
         'video': 'L copy.png',
@@ -99,7 +99,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 14,
+        'id': 11,
         'titulo': 'M',
         'imagen': 'm.png',
         'video': 'M copy.png',
@@ -108,7 +108,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 15,
+        'id': 12,
         'titulo': 'N',
         'imagen': 'n.png',
         'video': 'N copy.png',
@@ -117,7 +117,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 17,
+        'id': 13,
         'titulo': 'O',
         'imagen': 'o.png',
         'video': 'O copy.png',
@@ -126,7 +126,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 18,
+        'id': 14,
         'titulo': 'P',
         'imagen': 'p.png',
         'video': 'P copy.png',
@@ -135,7 +135,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 20,
+        'id': 15,
         'titulo': 'R',
         'imagen': 'r.png',
         'video': 'R copy.png',
@@ -144,7 +144,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 22,
+        'id': 16,
         'titulo': 'S',
         'imagen': 's.png',
         'video': 'S copy.png',
@@ -153,7 +153,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 23,
+        'id': 17,
         'titulo': 'T',
         'imagen': 't.png',
         'video': 'T copy.png',
@@ -162,7 +162,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 24,
+        'id': 18,
         'titulo': 'U',
         'imagen': 'u.png',
         'video': 'U copy.png',
@@ -171,7 +171,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 25,
+        'id': 19,
         'titulo': 'V',
         'imagen': 'v.png',
         'video': 'V copy.png',
@@ -180,7 +180,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 26,
+        'id': 20,
         'titulo': 'W',
         'imagen': 'w.png',
         'video': 'W copy.png',
@@ -189,7 +189,7 @@ abecedario = [
         'video64': ''
     },
     {
-        'id': 28,
+        'id': 21,
         'titulo': 'Y',
         'imagen': 'y.png',
         'video': 'Y copy.png',
