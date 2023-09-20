@@ -450,7 +450,7 @@ secciones = [
     {
         'id': 7,
         'titulo': 'G',
-        'imagen': 'g.png',
+        'imagen': 'l.png',
         'video': 'g.mp4',
         'definicion': 'La letra G es la séptima letra del abecedario',
         'imagen64': '',

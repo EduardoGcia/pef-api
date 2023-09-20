@@ -35,7 +35,7 @@ def get_args():
     return args
 
 
-def modelo_prueba(frame):
+def modelo_prueba(frame, palabra):
     #print(frame)
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
@@ -93,7 +93,7 @@ def modelo_prueba(frame):
             base_landmark = landmarks_list[0]
             pre_processed_landmark_list = pre_process_landmark(
                     landmarks_list)
-            gesture_data = load_gesture_data(gesture_number)
+            gesture_data = load_gesture_data(palabra)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
             keypoints_to_move = get_keypoints_to_move(difference)
             movement_direction = determine_movement_direction(keypoints_to_move)
@@ -281,7 +281,7 @@ def reverse_pre_process_landmark(normalized_landmark_list, base_landmark):
 
 
 # Function to load gesture data from CSV file
-def load_gesture_data(gesture_number):
+def load_gesture_data(palabra):
     gesture_data = []
     
     csv_path = 'model/keypoint_classifier/keypoint_image.csv'
@@ -290,7 +290,7 @@ def load_gesture_data(gesture_number):
         for row in csvreader:
             if len(row) < 2:
                 continue
-            if int(row[0]) == 97:
+            if int(row[0]) == ord(palabra.lower()):
                 # The first column is the gesture number, so we skip that column
                 gesture_data.append([float(cell) for cell in row[1:]])
     return gesture_data
