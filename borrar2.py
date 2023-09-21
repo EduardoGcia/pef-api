@@ -302,12 +302,12 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 def get_keypoints_to_move(difference, fingers_done, gesture_number):
     ##print(fingers_done)
     ##print("------------------")
-    if ord("C".lower()) == ord(gesture_number.lower()) or ord("O".lower()) == ord(gesture_number.lower()):
-        treshold=0.14
+    if ord("C".lower()) == ord(gesture_number.lower()):
+        treshold=0.12
     elif ord("M".lower()) == ord(gesture_number.lower()) or ord("N".lower()) == ord(gesture_number.lower()):
-        treshold=0.25
+        treshold=0.2
     else: 
-        treshold=0.14
+        treshold=0.15
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
     treshold_done=0.3
