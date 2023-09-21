@@ -75,7 +75,7 @@ def modelo_prueba(frame, palabra):
                     landmarks_list)
             gesture_data = load_gesture_data(palabra)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
-            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done)
+            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra)
             movement_direction = determine_movement_direction(keypoints_to_move)
             #gesture_landmark_list = reverse_pre_process_landmark(gesture_data[0], base_landmark)
             if len(movement_direction) == 0:
@@ -299,12 +299,17 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 
 
 # Function to determine which keypoints should be moved based on differences
-def get_keypoints_to_move(difference, fingers_done):
+def get_keypoints_to_move(difference, fingers_done, gesture_number):
     ##print(fingers_done)
     ##print("------------------")
+    if ord("C".lower()) == ord(gesture_number.lower()) or ord("O".lower()) == ord(gesture_number.lower()):
+        treshold=0.14
+    elif ord("M".lower()) == ord(gesture_number.lower()) or ord("N".lower()) == ord(gesture_number.lower()):
+        treshold=0.25
+    else: 
+        treshold=0.14
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
-    treshold=0.14
     treshold_done=0.3
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
