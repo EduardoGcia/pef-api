@@ -96,6 +96,13 @@ def aprende():
     cursor.execute("SELECT * FROM leccion")
     columns = [column[0] for column in cursor.description]
     data = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    
+    for row in data:
+        if 'imagen' in row:
+            imagen64 = row['imagen']
+            imagen64 = get_image_as_base64(imagen64)
+            row['imagen64'] = imagen64
+    
 
     cursor.close()
     connection.close()
@@ -119,7 +126,7 @@ def get_lecciones(id_leccion, id_seccion):
     item = {
         'titulo': data[0][0],
         'imagen64': get_image_as_base64(data[0][1]),
-        'video64': data[0][2],
+        'video64': data[0][1],
         'definicion': data[0][3]
     }
     
@@ -131,7 +138,7 @@ def get_todas_las_secciones(id_leccion):
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
     
-    query = "SELECT titulo, imagen, video, definicion FROM seña WHERE leccionID = %s"
+    query = "SELECT titulo, imagen, video, definicion, señaID FROM seña WHERE leccionID = %s"
     cursor.execute(query, (id_leccion,))
     data = cursor.fetchall()
     
@@ -145,7 +152,8 @@ def get_todas_las_secciones(id_leccion):
             'titulo': item[0],
             'imagen64': get_image_as_base64(item[1]),
             'video64': item[2],
-            'definicion': item[3]
+            'definicion': item[3],
+            'leccionID': item[4]
         })
         
     return jsonify(items)

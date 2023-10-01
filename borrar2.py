@@ -134,12 +134,234 @@ def modelo_prueba(frame, palabra):
                 # Messages for the most frequent correction by finger
                 for finger, movements in fingers.items():
                     if movements:
-                        most_frequent_correction = max(movements, key=movements.get)
-                        if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
-                            message = f"Mueve el {finger} para {most_frequent_correction}"
-                        else:
-                            message = f"Mueve el {finger} para la {most_frequent_correction}"
-                        messages.append(message)
+                        if(palabra == "A"):
+                            if(finger == "pulgar"):
+                                message = f"Apunta el pulgar hacia afuera"
+                            else:
+                                message = f"Cierra todos los dedos menos el pulgar a medio puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "B"):
+                            if(finger == "pulgar"):
+                                message = f"Mete el pulgar a la palma de la mano"
+                            else:
+                                message = f"Estira todos los dedos menos el pulgar, manteniéndolos juntos y apuntando hacia arriba"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "C"):
+                            if(finger == "pulgar"):
+                                message = f"Separa el pulgar"
+                            else:
+                                message = f"Junta todos los dedos menos el pulgar en forma de garra, volteando hacia la izquierda"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "D"):
+                            if(finger == "dedo índice"):
+                                message = f"Apunta el índice hacia arriba"
+                            else:
+                                message = f"Junta todos los dedos menos el índice, tocando la punta del pulgar con los otros 3 dedos"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "E"):
+                            if(finger == "pulgar"):
+                                message = f"Mete el pulgar a la palma de la mano"
+                            else:
+                                message = f"Cierra todos los dedos menos el pulgar a medio puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "F"):
+                            if(finger == "dedo medio" or finger == "dedo anular" or finger == "dedo meñique"):
+                                message = f"Estira los 3 últimos dedos, manteniéndolos juntos y apuntando hacia arriba"
+                            else:
+                                message = f"Toca la punta del pulgar con la punta del índice"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "G"):
+                            if(finger == "dedo medio" or finger == "dedo anular" or finger == "dedo meñique"):
+                                message = f"Mete los 3 últimos dedos a tu palma, de modo que no se vean"
+                            elif(finger == "pulgar"):
+                                message = f"Apunta el pulgar hacia arriba"
+                            else:
+                                message = f"Estira el dedo índice, apuntando a 45º"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "H"):
+                            if(finger == "dedo anular" or finger == "dedo meñique"):
+                                message = f"Mete los 2 últimos dedos a tu palma, de modo que no se vean"
+                            elif(finger == "pulgar"):
+                                message = f"Apunta el pulgar hacia arriba"
+                            else:
+                                message = f"Estira juntos el dedo índice y medio, apuntando a 45º"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "I"):
+                            if(finger == "pulgar"):
+                                message = f"Mete el pulgar al puño"
+                            elif(finger == "dedo meñique"):
+                                message = f"Sube el meñique, apuntando arriba"
+                            else:
+                                message = f"Haz un puño con todos tus dedos menos el meñique"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "J"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo": 
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "K"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "L"):
+                            if(finger == "pulgar"):
+                                message = f"Apunta el pulgar hacia afuera"
+                            elif(finger == "dedo indice"):
+                                message = f"Apunta el índice hacia arriba"
+                            else:
+                                message = f"Cierra todos los 3 últimos dedos a medio puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "LL"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "M"):
+                            if(finger == "dedo índice" or finger == "dedo medio" or finger == "dedo anular"):
+                                message = f"Junta el dedo índice, medio, y anular, apuntando hacia abajo, y cubre los otros dedos"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el meñique con el pulgar"
+                            else:
+                                message = f"Mete el meñique a su palma"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "N"):
+                            if(finger == "dedo índice" or finger == "dedo medio"):
+                                message = f"Junta el dedo índice y medio, apuntando hacia abajo, y cubre los otros dedos"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el meñique y anular con el pulgar"
+                            else:
+                                message = f"Mete el dedo meñique y anular a la palma"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "Ñ"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "O"):
+                            if(finger == "pulgar" or finger == "dedo índice" or finger == "dedo medio" or finger == "dedo anular" or finger == "dedo meñique"): 
+                                message = f"Junta todos los dedos, junta las puntas del dedo índice y medio con la yema del pulgar.\nForma una O con los dedos"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "P"):
+                            if(finger == "pulgar"):
+                                message = f"Mete el pulgar dentro del dedo índice y medio"
+                            elif(finger == "dedo medio"):
+                                message = f"Estira el dedo medio, apuntando a la izquierda"
+                            elif(finger == "dedo índice"):
+                                message = f"Estira el dedo índice, apuntando hacia arriba"
+                            else:
+                                message = f"Mete el dedo meñique y anular a la palma, de modo que no se vean"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "Q"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "R"):
+                            if(finger == "dedo índice" or finger == "dedo medio"):
+                                message = f"Cruza el dedo medio detras del índice"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el dedo meñique y anular con el pulgar"
+                            else:
+                                message = f"Mete el dedo meñique y anular a la palma, como haciendo un puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "RR"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "S"):
+                            if(finger == "pulgar"):
+                                message = f"Cubre el puño con tu pulgar"
+                            else:
+                                message = f"Haz un puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "T"):
+                            if(finger == "pulgar"):
+                                message = f"Mete el pulgar entre el dedo índice y medio"
+                            else:
+                                message = f"Haz un puño con todos los dedos menos el pulgar"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "U"):
+                            if(finger == "dedo índice" or finger == "dedo medio"):
+                                message = f"Estira el dedo índice y medio, pegados, y apunta hacia arriba"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el dedo anular y meñique con el pulgar"
+                            else:
+                                message = f"Haz un puño con los 2 últimos dedos"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "V"):
+                            if(finger == "dedo índice" or finger == "dedo medio"):
+                                message = f"Estira el dedo índice y medio, apunta hacia arriba, y sepáralos"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el dedo anular y meñique con el pulgar"
+                            else:
+                                message = f"Haz un puño con los 2 últimos dedos"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "W"):
+                            if(finger == "dedo índice" or finger == "dedo medio" or finger == "dedo anular"):
+                                message = f"Estira el dedo índice, medio, y anular, apuntando hacia el arriba, y sepáralos entre sí"
+                            elif(finger == "pulgar"):
+                                message = f"Cubre el meñique con el pulgar"
+                            else:
+                                message = f"Mete el meñique como si fueras a hacer un puño"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "X"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        if(palabra == "Y"):
+                            if(finger == "dedo meñique"):
+                                message = f"Saca el meñique, apuntando hacia la izquierda"
+                            elif(finger == "pulgar"):
+                                message = f"Saca el pulgar, apuntando hacia la derecha"
+                            else:
+                                message = f"Haz un puño volteando hacia tí con el dedo índice, medio y anular"
+                            if(message not in messages):
+                                messages.append(message)
+                        if(palabra == "Z"):
+                            most_frequent_correction = max(movements, key=movements.get)
+                            if most_frequent_correction == "Arriba" or most_frequent_correction == "Abajo":
+                                message = f"Mueve el {finger} para {most_frequent_correction}"
+                            else:
+                                message = f"Mueve el {finger} para la {most_frequent_correction}"
+                            messages.append(message)
+                        
                         # cv.putText(image, message, (10, y_position),
                         #     cv.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1,
                         #     cv.LINE_AA)
