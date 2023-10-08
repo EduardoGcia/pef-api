@@ -42,11 +42,11 @@ def get_image_as_base64(image_filename):
     return base64_image
 
 # Metodo para convertir video a base64
-""" def get_video_as_base64(video_filename):
+def get_video_as_base64(video_filename):
     with open(f"static/videos/{video_filename}", "rb") as video_file:
         video_data = video_file.read()
         base64_video = base64.b64encode(video_data).decode('utf-8')
-    return base64_video """
+    return base64_video
 
 served_rows = []
 available_rows = []
@@ -108,7 +108,7 @@ def aprende():
     connection.close()
     return jsonify(data)
 
-# 2da Opción - Ruta para obtener cierta sección de cierta lección
+# 2da Opción - Ruta para obtener cierta palabra de cierta lección
 @app.route('/lecciones/<int:id_leccion>/<int:id_seccion>', methods=['GET'])
 def get_lecciones(id_leccion, id_seccion):
     id_seccion = id_seccion - 1
@@ -126,7 +126,7 @@ def get_lecciones(id_leccion, id_seccion):
     item = {
         'titulo': data[0][0],
         'imagen64': get_image_as_base64(data[0][1]),
-        'video64': data[0][1],
+        'video64': get_video_as_base64(data[0][2]),
         'definicion': data[0][3]
     }
     
@@ -170,6 +170,8 @@ def seccion_random():
     selected_row = available_rows.pop(random_index)
 
     selected_row['imagen64'] = get_image_as_base64(selected_row['imagen64'])
+    selected_row['video64'] = get_video_as_base64("a.mp4")
+    # TODO hacerlo no hardcodeado para a xd
 
     served_rows.append(selected_row)
 
