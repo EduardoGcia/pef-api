@@ -14,6 +14,8 @@ import numpy as np
 import mediapipe as mp
 import base64
 
+from treshold import THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD
+
 
 def modelo_prueba(frame, palabra):
     #print(palabra)
@@ -297,23 +299,41 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
     
     return difference
 
+def treshold_calculator(gesture_number, i):
+    treshold = 0.15
+    if 1 <= i <= 4:
+        print(THUMB_TRESHOLD[gesture_number])
+        return THUMB_TRESHOLD[gesture_number]
+    elif 5 <= i <= 8:
+        return INDEX_TRESHOLD[gesture_number]
+    elif 9 <= i <= 12:
+        return MIDDLE_TRESHOLD[gesture_number]
+    elif 13 <= i <= 16:
+        return RING_TRESHOLD[gesture_number]
+    elif 17 <= i <= 20:
+        return PINKY_TRESHOLD[gesture_number]
+    
+    return treshold
+
 
 # Function to determine which keypoints should be moved based on differences
 def get_keypoints_to_move(difference, fingers_done, gesture_number):
     ##print(fingers_done)
     ##print("------------------")
-    if ord("C".lower()) == ord(gesture_number.lower()):
+    """ if ord("C".lower()) == ord(gesture_number.lower()):
         treshold=0.12
     elif ord("M".lower()) == ord(gesture_number.lower()) or ord("N".lower()) == ord(gesture_number.lower()):
         treshold=0.2
     else: 
-        treshold=0.15
+        treshold=0.15 """
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
     treshold_done=0.3
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
+        treshold = treshold_calculator(gesture_number, i)
+        
         if 1 <= i <= 4:
             if fingers_done[0]:
                 #print(i, diff_magnitude, "treshold")
@@ -394,7 +414,6 @@ def determine_movement_direction(keypoints_to_move):
             movement_direction.append([i, "Sin movimiento"])
 
     return movement_direction
-
 
 if __name__ == '__main__':
     modelo_prueba()
