@@ -5,6 +5,7 @@ import copy
 import argparse
 import ast
 import itertools
+import re
 from collections import Counter
 from collections import deque
 from numpy import loadtxt
@@ -18,6 +19,7 @@ import base64
 
 def dynamic_model(frames, gesture):
     #frame viene como arreglo de los frames
+    
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose()
     pose_dictionary = {
@@ -63,7 +65,9 @@ def dynamic_model(frames, gesture):
 
     for index, frame in enumerate(frames):
         # Se podría quitar el fingers_done?
-        hand_message, fingers_done = static_model(frame, gesture)
+        if frame.startswith('data:'):
+            frame = re.sub('^data:image/.+;base64,', '', frame)
+        hand_message, fingers_done = static_model(frame, gesture, index, dynamic=True)
 
 
         image = np.frombuffer(base64.b64decode(frame), np.uint8)
@@ -83,10 +87,14 @@ def dynamic_model(frames, gesture):
         difference = calculate_difference(gesture_data[index], pre_processed_landmark_list)
         keypoints_to_move = get_keypoints_to_move(difference, gesture)
         movement_direction = determine_movement_direction(keypoints_to_move)
-        print(movement_direction)
         # Cambiar
-        pose_messages.append(movement_direction)
+        if len(movement_direction) == 0:
+                pose_messages.append("Correcto")
+        else:
+            pose_messages.append(movement_direction)
         hand_messages.append(hand_message)
+    print(pose_messages)
+    print(hand_messages)
     return pose_messages, hand_messages
 
 
@@ -153,8 +161,8 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
     difference = []
     num_keypoints = len(gesture_data)
     for i in range(0, num_keypoints, 2):
-        x1 = gesture_data[0][i]
-        y1 = gesture_data[0][i+1]
+        x1 = gesture_data[i]
+        y1 = gesture_data[i+1]
         x2 = landmarks_in_real_time[i]
         y2 = landmarks_in_real_time[i+1]
         diff_x = x2 - x1

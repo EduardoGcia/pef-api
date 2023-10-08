@@ -8,7 +8,18 @@ import os
 def main():
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose()
-
+    mp_hands = mp.solutions.hands
+    hands = mp_hands.Hands()
+    try:
+        csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
+        os.remove(csv_path)
+    except:
+        pass
+    try:
+        csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
+        os.remove(csv_path)
+    except:
+        pass
     directorio = 'model/images_dynamic/'
 
     for dir in os.listdir(directorio):
@@ -23,24 +34,42 @@ def main():
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 image.flags.writeable = False
                 results = pose.process(image)
+
+                results_hands = hands.process(image)
+
                 image.flags.writeable = True
                 name, extension = os.path.splitext(file)
                 name, name_ord = name.split('_')
                 image_to_landmarks(image, results, name, name_ord, num_files)
+                image_to_landmarks(image, results_hands, name, name_ord, num_files, hands = True)
 
 # Get the landmarks from an image
-def image_to_landmarks(image, results, name, name_ord, num_files):
+def image_to_landmarks(image, results, name, name_ord, num_files, hands = False):
     landmarks_list = []
-    if results.pose_landmarks:
-        for idx,point in enumerate (results.pose_landmarks.landmark):
-            x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
-            y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
-            landmarks_list.append([x, y])
-        # if(len(landmarks_list)) > 34:
-        #     continue
-        pre_processed_landmark_list = pre_process_landmark(
-                        landmarks_list)
-        logging_csv(pre_processed_landmark_list, name, name_ord, num_files)
+    if hands:
+        if results.multi_hand_landmarks:
+            for landmarks in results.multi_hand_landmarks:
+                for idx, point in enumerate(landmarks.landmark):
+                    x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
+                    y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
+                    landmarks_list.append([x, y])
+                if(len(landmarks_list)) > 21:
+                    #42
+                    continue
+                pre_processed_landmark_list = pre_process_landmark(
+                            landmarks_list)
+                logging_csv(pre_processed_landmark_list, name, name_ord, hands = True)
+    else:
+        if results.pose_landmarks:
+            for idx,point in enumerate (results.pose_landmarks.landmark):
+                x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
+                y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
+                landmarks_list.append([x, y])
+            # if(len(landmarks_list)) > 34:
+            #     continue
+            pre_processed_landmark_list = pre_process_landmark(
+                            landmarks_list)
+            logging_csv(pre_processed_landmark_list, name, name_ord)
     return
 
 
@@ -73,12 +102,18 @@ def pre_process_landmark(landmark_list):
 
 
 # Saves the data to a csv
-def logging_csv(landmarks_list, name, name_ord, num_files):
-    csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
-    with open(csv_path, 'a', newline="", encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerow([name.lower(), name_ord, *landmarks_list])
-    
+def logging_csv(landmarks_list, name, name_ord, hands = False):
+    if hands:
+        csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
+        with open(csv_path, 'a', newline="", encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow([name.lower(), name_ord, *landmarks_list])
+    else:
+        csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
+        with open(csv_path, 'a', newline="", encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow([name.lower(), name_ord, *landmarks_list])
+        
     return
 
 

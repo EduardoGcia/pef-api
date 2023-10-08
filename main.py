@@ -1,23 +1,29 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from dotenv import load_dotenv
 import base64
 import random
 import re
-
-# Importar los arrays de las lecciones de lecciones.py
-
-from lecciones import lecciones
-from lecciones_temp import abecedario
-from lecciones import saludos
-from lecciones_temp import secciones
-
-# Array de los IDs de todas las secciones
-from lecciones_temp import secciones_random
+import mysql.connector
+import os
 
 from algo_static import static_model
+from algo_dynamic import dynamic_model
 
+#Cargar variables de entorno
+load_dotenv()
+
+#Inicializar Flask y CORS
 app = Flask(__name__)
 CORS(app)
+
+#Conexión a base de datos
+mysql_config = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
+}
 
 # Metodo para convertir imagen a base64
 def get_image_as_base64(image_filename):
@@ -28,108 +34,175 @@ def get_image_as_base64(image_filename):
     return base64_image
 
 # Metodo para convertir video a base64
-""" def get_video_as_base64(video_filename):
+def get_video_as_base64(video_filename):
     with open(f"static/videos/{video_filename}", "rb") as video_file:
         video_data = video_file.read()
         base64_video = base64.b64encode(video_data).decode('utf-8')
-    return base64_video """
+    return base64_video
 
+served_rows = []
+available_rows = []
 
-# Ruta para obtener frames de la camara
+def load_available_rows():
+    connection = mysql.connector.connect(**mysql_config)
+    cursor = connection.cursor()
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND dinamico = 0"
+    cursor.execute(query)
+    data = cursor.fetchall()
+    
+    for item in data:
+        available_rows.append({
+            'titulo': item[0],
+            'video64': item[1],
+            'definicion': item[2],
+            'imagen64': item[3],
+            'dinamico': item[4],
+            'señaID': item[5]
+        })
+
+load_available_rows()
+
+# Ruta para obtener frames de la camara (estaticos)
 @app.route('/process_frame', methods=['POST'])
 def process_frame():
     try:
         frame = request.json.get('frame')
         palabra = request.json.get('palabra')
-        #fingers_done = request.json.get('fingersDone')
-        #print(palabra)
+        id = request.json.get('palabraId')
+        connection = mysql.connector.connect(**mysql_config)
+        cursor = connection.cursor()
+        
+        query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
+        cursor.execute(query, (id,))
+        data = cursor.fetchall()
+
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
-        respuesta= static_model(frame, palabra)
+        respuesta = static_model(frame, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
         print(respuesta[1])
         with open('datos_recibidos.txt', 'w') as archivo:
             archivo.write(str(respuesta[1]))
         return jsonify(respuesta[0])
     except Exception as e:
         return jsonify({"error": str(e)})
+    
+# Ruta para obtener frames de la camara (dinamicos)
+@app.route('/process_frame_dynamic', methods=['POST'])
+def process_frame_dynamic():
+    try:
+        frames = request.json.get('frames')
+        palabra = request.json.get('palabra')
+        respuesta = dynamic_model(frames, palabra)
+        print(respuesta)
+        return jsonify(respuesta)
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 # Ruta para obtener todas las lecciones (Con titulo e imagen)
 @app.route('/aprende', methods=['GET'])
 def aprende():
-    for item in lecciones:
-        item['imagen64'] = get_image_as_base64(item['imagen'])
-    return jsonify(lecciones)
+    connection = mysql.connector.connect(**mysql_config)
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT * FROM leccion")
+    columns = [column[0] for column in cursor.description]
+    data = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    
+    for row in data:
+        if 'imagen' in row:
+            imagen64 = row['imagen']
+            imagen64 = get_image_as_base64(imagen64)
+            row['imagen64'] = imagen64
+    
 
-# 1ra Opción
+    cursor.close()
+    connection.close()
+    return jsonify(data)
 
-@app.route('/abecedario/<int:id>', methods=['GET'])
-def get_abecedario(id):
-    for item in abecedario:
-        if item['id'] == id:
-            return jsonify(item)
-    return jsonify({"error": "Letra no encontrada."}), 404
-
-""" @app.route('/numero/<int:id>', methods=['GET'])
-def getNumeros(id):
-    for item in numeros:
-        if item['id'] == (id):
-            return jsonify(item)
-    return jsonify({"error": "Número no encontrado."}), 404 """
-
-@app.route('/saludo/<int:id>', methods=['GET'])
-def get_saludos(id):
-    for item in saludos:
-        if item['id'] == (id):
-            return jsonify(item)
-    return jsonify({"error": "Saludo no encontrado."}), 404
-
-# 2da Opción - Ruta para obtener cierta sección de cierta lección
+# 2da Opción - Ruta para obtener cierta palabra de cierta lección
 @app.route('/lecciones/<int:id_leccion>/<int:id_seccion>', methods=['GET'])
 def get_lecciones(id_leccion, id_seccion):
-    if id_leccion == 1:
-        for item in abecedario:
-            if item['id'] == id_seccion:
-                item['imagen64'] = get_image_as_base64(item['imagen'])
-                item['video64'] = get_image_as_base64(item['video'])
-                """ item['video'] = get_video_as_base64(item['video_filename']) """
-                return jsonify(item)
-        return jsonify({"error": "Letra no encontrada."}), 404
-    elif id_leccion == 2:
-        for item in saludos:
-            if item['id'] == id_seccion:
-                item['imagen64'] = get_image_as_base64(item['imagen'])
-                """ item['video'] = get_video_as_base64(item['video_filename']) """
-                return jsonify(item)
-        return jsonify({"error": "Saludo no encontrado."}), 404
-    else:
-        return jsonify({"error": "Lección no encontrada."}), 404
+    id_seccion = id_seccion - 1
+    connection = mysql.connector.connect(**mysql_config)
+    cursor = connection.cursor()
     
+    query = "SELECT titulo, imagen, video, definicion FROM seña WHERE leccionID = %s ORDER BY señaID LIMIT %s, 1"
+    cursor.execute(query, (id_leccion, id_seccion))
+    data = cursor.fetchall()
+    
+    if len(data) == 0:
+        return jsonify({"error": "Sección no encontrada."}), 404
+    
+    # TODO Convertir video a base64
+    item = {
+        'titulo': data[0][0],
+        'imagen64': get_image_as_base64(data[0][1]),
+        'video64': get_video_as_base64(data[0][2]),
+        'definicion': data[0][3]
+    }
+    
+    return jsonify(item)
 
 ## Array de todas las secciones por lección
 @app.route('/<int:id_leccion>', methods=['GET'])
 def get_todas_las_secciones(id_leccion):
-    if id_leccion == 1:
-        return jsonify(abecedario)
-    if id_leccion == 2:
-        return jsonify(saludos)
-    else:
+    connection = mysql.connector.connect(**mysql_config)
+    cursor = connection.cursor()
+    
+    query = """
+    SELECT titulo, imagen, video, definicion, señaID, (@counter := @counter + 1) AS counter
+    FROM (SELECT @counter := 0) AS init
+    JOIN seña
+    WHERE leccionID = %s;
+    """
+    cursor.execute(query, (id_leccion,))
+    data = cursor.fetchall()
+    
+    if len(data) == 0:
         return jsonify({"error": "Lección no encontrada."}), 404
     
+    # Convertir imagen a base64 TODO Convertir video a base64
+    items = []
+    for item in data:
+        items.append({
+            'titulo': item[0],
+            'imagen64': get_image_as_base64(item[1]),
+            'video64': item[2],
+            'definicion': item[3],
+            'leccionID': item[4],
+            'counter': int(item[5])
+        })
+        
+    return jsonify(items)
+    
 # Ruta para "Practica" aleatoriamente elige una seccion de todas las lecciones
+# TODO Incorporar base de datos
 @app.route('/random', methods=['GET'])
 def seccion_random():
-    global secciones_random
-    if len(secciones_random) == 0:
-        secciones_random = [seccion['id'] for seccion in secciones]
-        
-    id_aleatorio = random.choice(secciones_random)
-    secciones_random.remove(id_aleatorio)
-        
-    for item in secciones:
-        if item['id'] == id_aleatorio:
-            item['imagen64'] = get_image_as_base64(item['imagen'])
-            """ item['video'] = get_video_as_base64(item['video_filename']) """
-            return jsonify(item)
+    if not available_rows:
+        load_available_rows()
+        served_rows.clear()
+
+    random_index = random.randrange(len(available_rows))
+    selected_row = available_rows.pop(random_index)
+    
+    selected_row['pasos'] = 0
+    if 'dinamico' in selected_row:
+        if selected_row['dinamico'] == 1:
+            connection = mysql.connector.connect(**mysql_config)
+            cursor = connection.cursor()
+            query = "SELECT pasos FROM momentos WHERE señaID = %s"
+            cursor.execute(query, (selected_row['señaID'],))
+            data = cursor.fetchall()
+            selected_row['pasos'] = data[0][0]	
+
+    selected_row['imagen64'] = get_image_as_base64(selected_row['imagen64'])
+    selected_row['video64'] = get_video_as_base64("a.mp4")
+    # TODO hacerlo no hardcodeado para a xd
+
+    served_rows.append(selected_row)
+
+    return jsonify(selected_row)
         
 
 if __name__ == '__main__':
