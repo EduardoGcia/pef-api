@@ -14,7 +14,7 @@ from lecciones_temp import secciones
 # Array de los IDs de todas las secciones
 from lecciones_temp import secciones_random
 
-from borrar2 import modelo_prueba
+from algo_static import static_model
 
 app = Flask(__name__)
 CORS(app)
@@ -45,7 +45,7 @@ def process_frame():
         #print(palabra)
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
-        respuesta= modelo_prueba(frame, palabra)
+        respuesta= static_model(frame, palabra)
         print(respuesta[1])
         with open('datos_recibidos.txt', 'w') as archivo:
             archivo.write(str(respuesta[1]))

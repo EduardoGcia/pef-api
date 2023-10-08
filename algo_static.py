@@ -17,7 +17,7 @@ import base64
 from treshold import THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD
 
 
-def modelo_prueba(frame, palabra):
+def static_model(frame, palabra):
     #print(palabra)
     with open("datos_recibidos.txt", "r") as archivo:
         contenido = archivo.read()
@@ -79,7 +79,6 @@ def modelo_prueba(frame, palabra):
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
             keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra)
             movement_direction = determine_movement_direction(keypoints_to_move)
-            #gesture_landmark_list = reverse_pre_process_landmark(gesture_data[0], base_landmark)
             if len(movement_direction) == 0:
                 messages.append("Correcto")
             elif movement_direction is not None:
@@ -154,43 +153,6 @@ def modelo_prueba(frame, palabra):
     return [messages, fingers_done_return]
 
 
-
-# Mode and key selection
-def select_mode(key, mode):
-    number = -1
-    if 48 <= key <= 57:  # 0 ~ 9
-        number = key - 48
-    elif mode == 3 and 97 <= key <= 122:  # Modo 3 (A ~ Z)
-        number = key   
-    else:
-        if key == 110:  # n
-            mode = 0
-        if key == 107:  # k
-            mode = 1
-        if key == 104:  # h
-            mode = 2
-        if key == 108:  # L
-            mode = 3
-    return number, mode
-
-
-# Landmark calculation
-def calc_landmark_list(image, landmarks):
-    image_width, image_height = image.shape[1], image.shape[0]
-
-    landmark_point = []
-
-    # Keypoint
-    for _, landmark in enumerate(landmarks.landmark):
-        landmark_x = min(int(landmark.x * image_width), image_width - 1)
-        landmark_y = min(int(landmark.y * image_height), image_height - 1)
-        # landmark_z = landmark.z
-
-        landmark_point.append([landmark_x, landmark_y])
-
-    return landmark_point
-
-
 # Normalize the landmarks to save them in csv
 def pre_process_landmark(landmark_list):
     temp_landmark_list = copy.deepcopy(landmark_list)
@@ -219,50 +181,6 @@ def pre_process_landmark(landmark_list):
     return temp_landmark_list
 
 
-# Normalize the landmarks to save them in csv
-def pre_process_point_history(image, point_history):
-    image_width, image_height = image.shape[1], image.shape[0]
-
-    temp_point_history = copy.deepcopy(point_history)
-
-    # Convert to relative coordinates
-    base_x, base_y = 0, 0
-    for index, point in enumerate(temp_point_history):
-        if index == 0:
-            base_x, base_y = point[0], point[1]
-
-        temp_point_history[index][0] = (temp_point_history[index][0] -
-                                        base_x) / image_width
-        temp_point_history[index][1] = (temp_point_history[index][1] -
-                                        base_y) / image_height
-
-    # Convert to a one-dimensional list
-    temp_point_history = list(
-        itertools.chain.from_iterable(temp_point_history))
-
-    return temp_point_history
-
-
-# Gets the coordinates of the selected sign and reverse the normalization process
-def reverse_pre_process_landmark(normalized_landmark_list, base_landmark):
-    # Desnormaliza los datos normalizados
-    def denormalize_(n):
-        return (n + 1.0) / 2.0
-
-    denormalized_landmark_list = list(map(denormalize_, normalized_landmark_list))
-
-    # Reconstruye la lista bidimensional de puntos de referencia relativos
-    landmark_list = [denormalized_landmark_list[i:i + 2] for i in range(0, len(denormalized_landmark_list), 2)]
-
-    # Convierte las coordenadas relativas en coordenadas absolutas
-    base_x, base_y = base_landmark[0], base_landmark[1]
-    for index, landmark_point in enumerate(landmark_list):
-        landmark_list[index][0] = int(landmark_point[0] * (base_x)) + base_x
-        landmark_list[index][1] = int(landmark_point[1] * (base_y)) + base_y
-
-    return landmark_list
-
-
 # Function to load gesture data from CSV file
 def load_gesture_data(gesture_number):
     gesture_data = []
@@ -273,7 +191,7 @@ def load_gesture_data(gesture_number):
         for row in csvreader:
             if len(row) < 2:
                 continue
-            if int(row[0]) == ord(gesture_number.lower()):
+            if row[0] == gesture_number.lower():
                 # The first column is the gesture number, so we skip that column
                 gesture_data.append([float(cell) for cell in row[1:]])
     return gesture_data
@@ -318,14 +236,6 @@ def treshold_calculator(gesture_number, i):
 
 # Function to determine which keypoints should be moved based on differences
 def get_keypoints_to_move(difference, fingers_done, gesture_number):
-    ##print(fingers_done)
-    ##print("------------------")
-    """ if ord("C".lower()) == ord(gesture_number.lower()):
-        treshold=0.12
-    elif ord("M".lower()) == ord(gesture_number.lower()) or ord("N".lower()) == ord(gesture_number.lower()):
-        treshold=0.2
-    else: 
-        treshold=0.15 """
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
     treshold_done=0.3
@@ -415,5 +325,5 @@ def determine_movement_direction(keypoints_to_move):
 
     return movement_direction
 
-if __name__ == '__main__':
-    modelo_prueba()
+""" if __name__ == '__main__':
+    () """

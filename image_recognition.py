@@ -73,7 +73,7 @@ def logging_csv(landmarks_list, name):
     csv_path = 'model/keypoint_classifier/keypoint_image.csv'
     with open(csv_path, 'a', newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow([ord(name.lower()), *landmarks_list])
+        writer.writerow([name.lower(), *landmarks_list])
     
     return
 
