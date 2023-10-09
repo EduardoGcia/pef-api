@@ -9,10 +9,16 @@ def main():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
 
+    try:
+        csv_path = 'model/keypoint_classifier/keypoint_image.csv'
+        os.remove(csv_path)
+    except:
+        pass
     directorio = 'model/images/'
     for file in os.listdir(directorio):
         if os.path.isfile(os.path.join(directorio, file)):
             # Image load
+            print(os.path.join(directorio, file))
             image = cv2.imread(os.path.join(directorio, file))
             image = cv2.flip(image, 1) 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

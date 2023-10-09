@@ -75,6 +75,7 @@ def process_frame():
         query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
         cursor.execute(query, (id,))
         data = cursor.fetchall()
+        print(palabra)
 
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)

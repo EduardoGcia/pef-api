@@ -18,7 +18,6 @@ import base64
 
 
 def static_model(frame, palabra, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=0, dynamic=False):
-    print(THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
     with open("datos_recibidos.txt", "r") as archivo:
         contenido = archivo.read()
     fingers_done = ast.literal_eval(contenido)
@@ -247,7 +246,7 @@ def treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDL
 def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD):
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
-    treshold_done=0.3
+    treshold_done=0.175
     treshold=0.15
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
@@ -257,6 +256,7 @@ def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THU
                   keypoints_to_move.append([i, diff_x, diff_y])
         else:
             treshold = treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
+            treshold_done = treshold + 0.02
             if 1 <= i <= 4:
                 if fingers_done[0]:
                     #print(i, diff_magnitude, "treshold")
