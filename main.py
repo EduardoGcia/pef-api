@@ -46,7 +46,7 @@ available_rows = []
 def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND dinamico = 0"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 2 AND dinamico = 1 AND señaID =30"
     cursor.execute(query)
     data = cursor.fetchall()
     
@@ -75,12 +75,12 @@ def process_frame():
         query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
         cursor.execute(query, (id,))
         data = cursor.fetchall()
-        print(palabra)
+        (palabra)
 
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
         respuesta = static_model(frame, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
-        print(respuesta[1])
+        (respuesta[1])
         with open('datos_recibidos.txt', 'w') as archivo:
             archivo.write(str(respuesta[1]))
         return jsonify(respuesta[0])
@@ -94,7 +94,7 @@ def process_frame_dynamic():
         frames = request.json.get('frames')
         palabra = request.json.get('palabra')
         respuesta = dynamic_model(frames, palabra)
-        print(respuesta)
+        (respuesta)
         return jsonify(respuesta)
     except Exception as e:
         return jsonify({"error": str(e)})

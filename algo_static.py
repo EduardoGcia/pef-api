@@ -17,7 +17,8 @@ import base64
 """ from treshold import THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD """
 
 
-def static_model(frame, palabra, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=0, dynamic=False):
+def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15, index=0, dynamic=False):
+    print(index)
     with open("datos_recibidos.txt", "r") as archivo:
         contenido = archivo.read()
     fingers_done = ast.literal_eval(contenido)
@@ -57,11 +58,10 @@ def static_model(frame, palabra, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD
     image.flags.writeable = False
     results = hands.process(image)
     image.flags.writeable = True
-
     messages = []
     fingers_done_return = [False, False, False, False, False]
-    # #print(messages)
-    # #print("------------------")
+    # #(messages)
+    # #("------------------")
     landmarks_list = []
     if results.multi_hand_landmarks:
         for landmarks in results.multi_hand_landmarks:
@@ -146,9 +146,9 @@ def static_model(frame, palabra, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD
                         # y_position += 20
     else:
         messages.append("No hay mano detectada")
-    ##print(messages)
-    ##print(fingers_done_return)
-    # #print("------------------")
+    ##(messages)
+    ##(fingers_done_return)
+    # #("------------------")
     return [messages, fingers_done_return]
 
 
@@ -188,9 +188,11 @@ def load_gesture_data(gesture_number, dynamic, index):
         with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
             csvreader = csv.reader(csvfile)
             for row in csvreader:
+                print(row[0].lower(), gesture_number.lower(), row[1], index + 1)
                 if len(row) < 2:
                     continue
-                if row[0] == gesture_number.lower() and row[1] == index:
+                if row[0].lower() == gesture_number.lower() and int(row[1]) == (index + 1):
+                    print("hola?")
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[2:]])
     else:
@@ -203,6 +205,7 @@ def load_gesture_data(gesture_number, dynamic, index):
                 if row[0] == gesture_number.lower():
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[1:]])
+    print(gesture_data)
     return gesture_data
 
 
@@ -212,7 +215,9 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
         return []
     if len(landmarks_in_real_time) != len(gesture_data[0]):
         raise ValueError("Las listas de coordenadas no tienen la misma longitud")
-
+    print("algo_static - calculate_difference:")
+    print("Datos algoritmo: ", gesture_data)
+    print("Real Time: ", landmarks_in_real_time)
     difference = []
     num_keypoints = len(gesture_data[0])
     for i in range(0, num_keypoints, 2):
@@ -259,57 +264,57 @@ def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THU
             treshold_done = treshold + 0.02
             if 1 <= i <= 4:
                 if fingers_done[0]:
-                    #print(i, diff_magnitude, "treshold")
+                    #(i, diff_magnitude, "treshold")
                     if diff_magnitude > treshold_done:
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[0] = False
                 else:
-                    #print(i, diff_magnitude, "tresh")
+                    #(i, diff_magnitude, "tresh")
                     if diff_magnitude > treshold:
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[0] = False
             elif 5 <= i <= 8:
                 if fingers_done[1]:
-                    #print(i, diff_magnitude, "treshold")
+                    #(i, diff_magnitude, "treshold")
                     if diff_magnitude > treshold_done:
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[1] = False
                 else:
                     if diff_magnitude > treshold:
-                        #print(i, diff_magnitude, "tresh")
+                        #(i, diff_magnitude, "tresh")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[1] = False
             elif 9 <= i <= 12:
                 if fingers_done[2]:
                     if diff_magnitude > treshold_done:
-                        #print(i, diff_magnitude, "treshold")
+                        #(i, diff_magnitude, "treshold")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[2] = False
                 else:
                     if diff_magnitude > treshold:
-                        #print(i, diff_magnitude, "tresh")
+                        #(i, diff_magnitude, "tresh")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[2] = False
             elif 13 <= i <= 16:
                 if fingers_done[3]:
                     if diff_magnitude > treshold_done:
-                        #print(i, diff_magnitude, "treshold")
+                        #(i, diff_magnitude, "treshold")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[3] = False
                 else:
                     if diff_magnitude > treshold:
-                        #print(i, diff_magnitude, "tresh")
+                        #(i, diff_magnitude, "tresh")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[3] = False
             elif 17 <= i <= 20:
                 if fingers_done[4]:
                     if diff_magnitude > treshold_done:
-                        #print(i, diff_magnitude, "treshold")
+                        #(i, diff_magnitude, "treshold")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[4] = False
                 else:
                     if diff_magnitude > treshold:
-                        #print(i, diff_magnitude, "tresh")
+                        #(i, diff_magnitude, "tresh")
                         keypoints_to_move.append([i, diff_x, diff_y])
                         fingers_done_count[4] = False
             

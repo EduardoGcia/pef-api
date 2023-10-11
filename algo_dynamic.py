@@ -67,7 +67,7 @@ def dynamic_model(frames, gesture):
         # Se podría quitar el fingers_done?
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
-        hand_message, fingers_done = static_model(frame, gesture, index, dynamic=True)
+        hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15, index=index, dynamic=True)
 
 
         image = np.frombuffer(base64.b64decode(frame), np.uint8)
@@ -93,8 +93,8 @@ def dynamic_model(frames, gesture):
         else:
             pose_messages.append(movement_direction)
         hand_messages.append(hand_message)
-    print(pose_messages)
-    print(hand_messages)
+    (pose_messages)
+    (hand_messages)
     return pose_messages, hand_messages
 
 

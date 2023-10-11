@@ -18,7 +18,7 @@ def main():
     for file in os.listdir(directorio):
         if os.path.isfile(os.path.join(directorio, file)):
             # Image load
-            print(os.path.join(directorio, file))
+            (os.path.join(directorio, file))
             image = cv2.imread(os.path.join(directorio, file))
             image = cv2.flip(image, 1) 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
