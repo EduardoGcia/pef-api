@@ -75,12 +75,10 @@ def process_frame():
         query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
         cursor.execute(query, (id,))
         data = cursor.fetchall()
-        (palabra)
 
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
         respuesta = static_model(frame, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
-        (respuesta[1])
         with open('datos_recibidos.txt', 'w') as archivo:
             archivo.write(str(respuesta[1]))
         return jsonify(respuesta[0])
@@ -94,7 +92,6 @@ def process_frame_dynamic():
         frames = request.json.get('frames')
         palabra = request.json.get('palabra')
         respuesta = dynamic_model(frames, palabra)
-        (respuesta)
         return jsonify(respuesta)
     except Exception as e:
         return jsonify({"error": str(e)})

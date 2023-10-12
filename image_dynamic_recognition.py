@@ -54,7 +54,6 @@ def image_to_landmarks(image, results, name, name_ord, num_files, hands = False)
                     y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
                     landmarks_list.append([x, y])
                 if(len(landmarks_list)) > 21:
-                    #42
                     continue
                 pre_processed_landmark_list = pre_process_landmark(
                             landmarks_list)
@@ -65,8 +64,6 @@ def image_to_landmarks(image, results, name, name_ord, num_files, hands = False)
                 x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
                 y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
                 landmarks_list.append([x, y])
-            # if(len(landmarks_list)) > 34:
-            #     continue
             pre_processed_landmark_list = pre_process_landmark(
                             landmarks_list)
             logging_csv(pre_processed_landmark_list, name, name_ord)
