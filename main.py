@@ -46,7 +46,7 @@ available_rows = []
 def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 2 AND dinamico = 1 AND señaID =30"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND dinamico = 1 AND señaID =10"
     cursor.execute(query)
     data = cursor.fetchall()
     
@@ -91,9 +91,19 @@ def process_frame_dynamic():
     try:
         frames = request.json.get('frames')
         palabra = request.json.get('palabra')
-        respuesta = dynamic_model(frames, palabra)
+
+        id = request.json.get('palabraId')
+        connection = mysql.connector.connect(**mysql_config)
+        cursor = connection.cursor()
+        
+        query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
+        cursor.execute(query, (id,))
+        data = cursor.fetchall()
+
+        respuesta = dynamic_model(frames, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
         return jsonify(respuesta)
     except Exception as e:
+        print("e 106 main")
         return jsonify({"error": str(e)})
 
 # Ruta para obtener todas las lecciones (Con titulo e imagen)

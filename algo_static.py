@@ -73,7 +73,7 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
                     landmarks_list)
             gesture_data = load_gesture_data(palabra, dynamic, index)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
-            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
+            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index)
             movement_direction = determine_movement_direction(keypoints_to_move)
             if len(movement_direction) == 0:
                 messages.append("Correcto")
@@ -194,6 +194,8 @@ def load_gesture_data(gesture_number, dynamic, index):
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
+    print(gesture_data)
+    print(landmarks_in_real_time)
     if not gesture_data:
         return []
     if len(landmarks_in_real_time) != len(gesture_data[0]):
@@ -211,37 +213,53 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
     
     return difference
 
-def treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD):
+def treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, dynamic, index):
     treshold = 0.15
-    if 1 <= i <= 4:
-        return THUMB_TRESHOLD
-    elif 5 <= i <= 8:
-        return INDEX_TRESHOLD
-    elif 9 <= i <= 12:
-        return MIDDLE_TRESHOLD
-    elif 13 <= i <= 16:
-        return RING_TRESHOLD
-    elif 17 <= i <= 20:
-        return PINKY_TRESHOLD
+    
+    if dynamic and index != 0:
+        if 1 <= i <= 4:
+            return THUMB_TRESHOLD + .1
+        elif 5 <= i <= 8:
+            return INDEX_TRESHOLD + .1
+        elif 9 <= i <= 12:
+            return MIDDLE_TRESHOLD + .1
+        elif 13 <= i <= 16:
+            return RING_TRESHOLD + .1
+        elif 17 <= i <= 20:
+            return PINKY_TRESHOLD + .1
+    else:
+        if 1 <= i <= 4:
+            return THUMB_TRESHOLD
+        elif 5 <= i <= 8:
+            return INDEX_TRESHOLD
+        elif 9 <= i <= 12:
+            return MIDDLE_TRESHOLD
+        elif 13 <= i <= 16:
+            return RING_TRESHOLD
+        elif 17 <= i <= 20:
+            return PINKY_TRESHOLD
     
     return treshold
 
 
 # Function to determine which keypoints should be moved based on differences
-def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD):
+def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index):
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
-    treshold_done=0.175
-    treshold=0.15
+    #treshold_done=0.175
+    #treshold=0.15
     for i, (diff_x, diff_y) in enumerate(difference):
+        treshold = treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, dynamic, index)
+        treshold_done = treshold + 0.02
+        print(treshold)
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
+        print(diff_magnitude)
         if dynamic:
             if diff_magnitude > treshold:
                   keypoints_to_move.append([i, diff_x, diff_y])
         else:
-            treshold = treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
-            treshold_done = treshold + 0.02
+            
             if 1 <= i <= 4:
                 if fingers_done[0]:
                     if diff_magnitude > treshold_done:

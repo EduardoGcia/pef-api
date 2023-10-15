@@ -17,7 +17,7 @@ import mediapipe as mp
 import base64
 
 
-def dynamic_model(frames, gesture):
+def dynamic_model(frames, gesture, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15):
     #frame viene como arreglo de los frames
     
     mp_pose = mp.solutions.pose
@@ -67,7 +67,7 @@ def dynamic_model(frames, gesture):
         # Se podría quitar el fingers_done?
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
-        hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15, index=index, dynamic=True)
+        hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
 
 
         image = np.frombuffer(base64.b64decode(frame), np.uint8)
@@ -153,8 +153,6 @@ def load_gesture_data(gesture):
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
-    print(gesture_data)
-    print(landmarks_in_real_time)
     if not gesture_data:
         return []
     if len(landmarks_in_real_time) != len(gesture_data):
@@ -176,16 +174,18 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 # Function to determine which keypoints should be moved based on differences
 def get_keypoints_to_move(difference, gesture):
     keypoints_to_move = []
-    treshold = 0.21
+    treshold = 0.16
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
         # PARA HOLA COMPARAR 20, 18, 16, 22??
-        if gesture.lower() == 'hola':
-            if i == 20 or i == 18 or i == 16 or i == 22:
-                print(diff_magnitude)
-                if diff_magnitude > treshold:
-                  keypoints_to_move.append([i, diff_x, diff_y])  
+        #if gesture.lower() == 'hola':
+        #if i == 20 or i == 18 or i == 16 or i == 22:
+        if i == 19 or i == 17 or i == 15 or i == 21:
+
+            #print(diff_magnitude)
+            if diff_magnitude > treshold:
+                keypoints_to_move.append([i, diff_x, diff_y]) 
         
     return keypoints_to_move
 
