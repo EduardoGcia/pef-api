@@ -63,36 +63,39 @@ def dynamic_model(frames, gesture, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, 
     hand_messages = []
     gesture_data = load_gesture_data(gesture)
 
-    for index, frame in enumerate(frames):
-        # Se podría quitar el fingers_done?
-        if frame.startswith('data:'):
-            frame = re.sub('^data:image/.+;base64,', '', frame)
-        hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
+    for index, framePerSec in enumerate(frames):
+        for frame in framePerSec:
+            # Se podría quitar el fingers_done?
+            if frame.startswith('data:'):
+                frame = re.sub('^data:image/.+;base64,', '', frame)
+            hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
+            if hand_message == "No hay mano detectada":
+                continue
 
+            image = np.frombuffer(base64.b64decode(frame), np.uint8)
+            image = cv.imdecode(image, cv.IMREAD_COLOR)
+            #image = cv.flip(image, 1) 
+            image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+            image.flags.writeable = False
+            results = pose.process(image)
+            image.flags.writeable = True
 
-        image = np.frombuffer(base64.b64decode(frame), np.uint8)
-        image = cv.imdecode(image, cv.IMREAD_COLOR)
-        #image = cv.flip(image, 1) 
-        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        image.flags.writeable = False
-        results = pose.process(image)
-        image.flags.writeable = True
-
-        #pose_message = []
-        #image_to_landmarks(image, results)
-        landmark_list = image_to_landmarks(image, results)
-        pre_processed_landmark_list = pre_process_landmark(
-                            landmark_list)
-        # Se regresa un arreglo en tipo [[dif tempo 1], [dif tempo 2], [dif tempo 3], ...]
-        difference = calculate_difference(gesture_data[index], pre_processed_landmark_list)
-        keypoints_to_move = get_keypoints_to_move(difference, gesture)
-        movement_direction = determine_movement_direction(keypoints_to_move)
-        # Cambiar
-        if len(movement_direction) == 0:
-                pose_messages.append("Correcto")
-        else:
-            pose_messages.append(movement_direction)
-        hand_messages.append(hand_message)
+            #pose_message = []
+            #image_to_landmarks(image, results)
+            landmark_list = image_to_landmarks(image, results)
+            pre_processed_landmark_list = pre_process_landmark(
+                                landmark_list)
+            # Se regresa un arreglo en tipo [[dif tempo 1], [dif tempo 2], [dif tempo 3], ...]
+            difference = calculate_difference(gesture_data[index], pre_processed_landmark_list)
+            keypoints_to_move = get_keypoints_to_move(difference, gesture)
+            movement_direction = determine_movement_direction(keypoints_to_move)
+            # Cambiar
+            if len(movement_direction) == 0:
+                    pose_messages.append("Correcto")
+            else:
+                pose_messages.append(movement_direction)
+            hand_messages.append(hand_message)
+            break
     (pose_messages)
     (hand_messages)
     return pose_messages, hand_messages
