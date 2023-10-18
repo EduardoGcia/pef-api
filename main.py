@@ -46,7 +46,7 @@ available_rows = []
 def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND dinamico = 1 AND señaID =10"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND (dinamico = 0 OR señaID = 10 OR señaID = 10 OR señaID = 13)"
     cursor.execute(query)
     data = cursor.fetchall()
     
@@ -134,19 +134,25 @@ def get_lecciones(id_leccion, id_seccion):
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
     
-    query = "SELECT titulo, imagen, video, definicion FROM seña WHERE leccionID = %s ORDER BY señaID LIMIT %s, 1"
+    query = "SELECT titulo, imagen, video, definicion, dinamico FROM seña WHERE leccionID = %s ORDER BY señaID LIMIT %s, 1"
     cursor.execute(query, (id_leccion, id_seccion))
     data = cursor.fetchall()
     
     if len(data) == 0:
         return jsonify({"error": "Sección no encontrada."}), 404
     
+    if data[0][4] == 0:
+        howTo = get_image_as_base64(data[0][2])
+    else:
+        howTo = get_video_as_base64(data[0][2])
+    
     # TODO Convertir video a base64
     item = {
         'titulo': data[0][0],
         'imagen64': get_image_as_base64(data[0][1]),
-        'video64': get_video_as_base64(data[0][2]),
-        'definicion': data[0][3]
+        'video64': howTo,
+        'definicion': data[0][3],
+        'dinamico': data[0][4]
     }
     
     return jsonify(item)
@@ -204,8 +210,13 @@ def seccion_random():
             data = cursor.fetchall()
             selected_row['pasos'] = data[0][0]	
 
+    if "mp4" not in selected_row['video64']:
+        howTo = get_image_as_base64(selected_row['video64'])
+    else:
+        howTo = get_video_as_base64(selected_row['video64'])
+
     selected_row['imagen64'] = get_image_as_base64(selected_row['imagen64'])
-    selected_row['video64'] = get_video_as_base64("a.mp4")
+    selected_row['video64'] = howTo
     # TODO hacerlo no hardcodeado para a xd
 
     served_rows.append(selected_row)
