@@ -176,7 +176,7 @@ def load_gesture_data(gesture_number, dynamic, index):
             for row in csvreader:
                 if len(row) < 2:
                     continue
-                if row[0].lower() == gesture_number.lower() and int(row[1]) == (index + 1):
+                if row[0].lower() == gesture_number.replace(" ", "").lower() and int(row[1]) == (index + 1):
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[2:]])
     else:
@@ -194,8 +194,6 @@ def load_gesture_data(gesture_number, dynamic, index):
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
-    print(gesture_data)
-    print(landmarks_in_real_time)
     if not gesture_data:
         return []
     if len(landmarks_in_real_time) != len(gesture_data[0]):
@@ -218,15 +216,26 @@ def treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDL
     
     if dynamic and index != 0:
         if 1 <= i <= 4:
-            return THUMB_TRESHOLD + .1
+            return THUMB_TRESHOLD + .3
         elif 5 <= i <= 8:
-            return INDEX_TRESHOLD + .1
+            return INDEX_TRESHOLD + .3
         elif 9 <= i <= 12:
-            return MIDDLE_TRESHOLD + .1
+            return MIDDLE_TRESHOLD + .3
         elif 13 <= i <= 16:
-            return RING_TRESHOLD + .1
+            return RING_TRESHOLD + .3
         elif 17 <= i <= 20:
-            return PINKY_TRESHOLD + .1
+            return PINKY_TRESHOLD + .3
+    if dynamic and index == 0:
+        if 1 <= i <= 4:
+            return THUMB_TRESHOLD + .3
+        elif 5 <= i <= 8:
+            return INDEX_TRESHOLD + .3
+        elif 9 <= i <= 12:
+            return MIDDLE_TRESHOLD + .3
+        elif 13 <= i <= 16:
+            return RING_TRESHOLD + .3
+        elif 17 <= i <= 20:
+            return PINKY_TRESHOLD + .3
     else:
         if 1 <= i <= 4:
             return THUMB_TRESHOLD
@@ -251,10 +260,8 @@ def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THU
     for i, (diff_x, diff_y) in enumerate(difference):
         treshold = treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, dynamic, index)
         treshold_done = treshold + 0.02
-        print(treshold)
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
-        print(diff_magnitude)
         if dynamic:
             if diff_magnitude > treshold:
                   keypoints_to_move.append([i, diff_x, diff_y])

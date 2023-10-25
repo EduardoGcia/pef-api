@@ -46,7 +46,8 @@ available_rows = []
 def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND (dinamico = 0 OR señaID = 10 OR señaID = 10 OR señaID = 13)"
+    #query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND (dinamico = 0 OR señaID = 10 OR señaID = 10 OR señaID = 13 OR señaID = 30)"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 2 AND señaID = 39"
     cursor.execute(query)
     data = cursor.fetchall()
     
@@ -88,10 +89,10 @@ def process_frame():
 # Ruta para obtener frames de la camara (dinamicos)
 @app.route('/process_frame_dynamic', methods=['POST'])
 def process_frame_dynamic():
-    try:
+    #try:
         frames = request.json.get('frames')
         palabra = request.json.get('palabra')
-
+        pasos = request.json.get('numSteps')
         id = request.json.get('palabraId')
         connection = mysql.connector.connect(**mysql_config)
         cursor = connection.cursor()
@@ -99,12 +100,15 @@ def process_frame_dynamic():
         query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s"
         cursor.execute(query, (id,))
         data = cursor.fetchall()
-
-        respuesta = dynamic_model(frames, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
+        if len(data) == 0:
+            respuesta = dynamic_model(frames, palabra, pasos)
+        else:
+            respuesta = dynamic_model(frames, palabra, pasos, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
         return jsonify(respuesta)
-    except Exception as e:
-        print("e 106 main")
-        return jsonify({"error": str(e)})
+    # except Exception as e:
+    #     print("e 106 main")
+    #     print(e)
+    #     return jsonify({"error": str(e)})
 
 # Ruta para obtener todas las lecciones (Con titulo e imagen)
 @app.route('/aprende', methods=['GET'])
