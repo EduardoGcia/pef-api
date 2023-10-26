@@ -65,7 +65,6 @@ def dynamic_model(frames, gesture, steps, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD 
 
 
     matching_frames, hand_messages = find_best_matching_frames(frames, gesture_data, gesture, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
-    print(matching_frames)
     for match in matching_frames:
         keypoints_to_move = get_keypoints_to_move(match)
         movement_direction = determine_movement_direction(keypoints_to_move)
@@ -200,8 +199,7 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 def get_keypoints_to_move(difference):
     keypoints_to_move = []
     treshold = 0.20
-    print("hola?")
-    print(difference)
+    #print(difference)
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
@@ -282,11 +280,12 @@ def find_best_matching_frames(frames, target_frames, gesture,THUMB_TRESHOLD, IND
             index = 0
             for target_frame in target_frames:
                 difference_actual_frame = calculate_difference(target_frame, pre_processed_landmark_list)
-                difference_actual_frame = get_keypoints_to_move_mean(difference_actual_frame)
+                difference_actual_frame2 = get_keypoints_to_move_mean(difference_actual_frame)
                 difference_best_match = calculate_difference(target_frame, best_matches[index])
-                difference_best_match = get_keypoints_to_move_mean(difference_best_match)
+                difference_best_match2 = get_keypoints_to_move_mean(difference_best_match)
                 # Implementa tu lógica de comparación aquí, por ejemplo, utilizando una función de similitud
-                if difference_actual_frame + .1 < difference_best_match:
+                if difference_actual_frame2  < difference_best_match2:
+                    print("entré")
                     hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
                     if hand_message == "No hay mano detectada":
                         continue
@@ -295,6 +294,8 @@ def find_best_matching_frames(frames, target_frames, gesture,THUMB_TRESHOLD, IND
                     indexes[index] = frame_counter
                     hand_messages[index] = hand_message
                     index += 1
+                else:
+                    print("no entré")
         frame_counter += 1
     return best_matches_differences, hand_messages
 
