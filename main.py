@@ -104,11 +104,36 @@ def process_frame_dynamic():
             respuesta = dynamic_model(frames, palabra, pasos)
         else:
             respuesta = dynamic_model(frames, palabra, pasos, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
+            #print(respuesta)
         return jsonify(respuesta)
     # except Exception as e:
     #     print("e 106 main")
     #     print(e)
     #     return jsonify({"error": str(e)})
+
+# Ruta para obtener frames de la camara (dinamico - mano)
+@app.route('/process_frame_dynamic_hand', methods=['POST'])
+def process_frame_dynamic_hand():
+    try:
+        frame = request.json.get('frame')
+        palabra = request.json.get('palabra')
+        id = request.json.get('palabraId')
+        index = request.json.get('index')
+        connection = mysql.connector.connect(**mysql_config)
+        cursor = connection.cursor()
+        print(index, "main")
+        query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s AND paso = %s"
+        cursor.execute(query, (id,index,))
+        data = cursor.fetchall()
+
+        if frame.startswith('data:'):
+            frame = re.sub('^data:image/.+;base64,', '', frame)
+        respuesta = static_model(frame, palabra, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4], index, True)
+        with open('datos_recibidos.txt', 'w') as archivo:
+            archivo.write(str(respuesta[1]))
+        return jsonify(respuesta[0])
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 # Ruta para obtener todas las lecciones (Con titulo e imagen)
 @app.route('/aprende', methods=['GET'])
@@ -213,6 +238,11 @@ def seccion_random():
             cursor.execute(query, (selected_row['señaID'],))
             data = cursor.fetchall()
             selected_row['pasos'] = data[0][0]	
+
+            query = "SELECT COUNT(*) FROM umbrales WHERE señaID = %s"
+            cursor.execute(query, (selected_row['señaID'],))
+            data = cursor.fetchall()
+            selected_row['cambios'] = data[0][0]	
 
     if "mp4" not in selected_row['video64']:
         howTo = get_image_as_base64(selected_row['video64'])

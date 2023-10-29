@@ -6,14 +6,14 @@ import itertools
 import os
 
 def main():
-    mp_pose = mp.solutions.pose
-    pose = mp_pose.Pose()
+    mp_hands = mp.solutions.hands
+    hands = mp_hands.Hands()
     try:
-        csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
+        csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
         os.remove(csv_path)
     except:
         pass
-    directorio = 'model/images_dynamic/'
+    directorio = 'model/images_dynamic_hand_change/'
     try:
         for dir in os.listdir(directorio):
             new_dir = os.path.join(directorio, dir)
@@ -26,12 +26,13 @@ def main():
                     image = cv2.flip(image, 1) 
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                     image.flags.writeable = False
-                    results = pose.process(image)
+
+                    results_hands = hands.process(image)
 
                     image.flags.writeable = True
                     name, extension = os.path.splitext(file)
                     name, name_ord = name.split('_')
-                    image_to_landmarks(image, results, name, name_ord)
+                    image_to_landmarks(image, results_hands, name, name_ord)
     except Exception as e:
         print("e 46 image recognition")
         print(e)
@@ -40,14 +41,22 @@ def main():
 # Get the landmarks from an image
 def image_to_landmarks(image, results, name, name_ord):
     landmarks_list = []
-    if results.pose_landmarks:
-        for idx,point in enumerate (results.pose_landmarks.landmark):
-            x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
-            y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
-            landmarks_list.append([x, y])
-        pre_processed_landmark_list = pre_process_landmark(
+    if results.multi_hand_landmarks:
+        for landmarks in results.multi_hand_landmarks:
+            for idx, point in enumerate(landmarks.landmark):
+                x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
+                y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
+                landmarks_list.append([x, y])
+            if(len(landmarks_list)) > 21:
+                continue
+            pre_processed_landmark_list = pre_process_landmark(
                         landmarks_list)
-        logging_csv(pre_processed_landmark_list, name, name_ord)
+            logging_csv(pre_processed_landmark_list, name, name_ord)
+    else:
+        #TODO VER POR QUÉ NO FUNCIONA EL SI #1
+        print(name)
+        print(name_ord)
+        pass
     return
 
 
@@ -81,7 +90,7 @@ def pre_process_landmark(landmark_list):
 
 # Saves the data to a csv
 def logging_csv(landmarks_list, name, name_ord):
-    csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
+    csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
     with open(csv_path, 'a', newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([name.lower(), name_ord, *landmarks_list])
