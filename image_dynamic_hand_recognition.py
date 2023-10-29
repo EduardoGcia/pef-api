@@ -21,21 +21,23 @@ def main():
                 files = [element for element in os.listdir(new_dir) if os.path.isfile(os.path.join(new_dir, element))]
                 num_files = len(files)
                 for file in files:
-                    # Image load
-                    image = cv2.imread(os.path.join(new_dir, file))
-                    image = cv2.flip(image, 1) 
-                    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                    image.flags.writeable = False
+                    try:
+                        # Image load
+                        image = cv2.imread(os.path.join(new_dir, file))
+                        image = cv2.flip(image, 1) 
+                        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                        image.flags.writeable = False
 
-                    results_hands = hands.process(image)
+                        results_hands = hands.process(image)
 
-                    image.flags.writeable = True
-                    name, extension = os.path.splitext(file)
-                    name, name_ord = name.split('_')
-                    image_to_landmarks(image, results_hands, name, name_ord)
-    except Exception as e:
+                        image.flags.writeable = True
+                        name, extension = os.path.splitext(file)
+                        name, name_ord = name.split('_')
+                        image_to_landmarks(image, results_hands, name, name_ord)
+                    except:
+                        pass
+    except:
         print("e 46 image recognition")
-        print(e)
 
 
 # Get the landmarks from an image
