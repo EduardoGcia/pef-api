@@ -48,7 +48,13 @@ def image_to_landmarks(image, results, name, name_ord):
         pre_processed_landmark_list = pre_process_landmark(
                         landmarks_list)
         logging_csv(pre_processed_landmark_list, name, name_ord)
+    else:
+        #TODO VER POR QUÉ NO FUNCIONA EL SI #1
+        print(name)
+        print(name_ord)
+        pass
     return
+
 
 
 # Normalize the data

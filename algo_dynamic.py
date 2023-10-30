@@ -10,6 +10,7 @@ from collections import Counter
 from collections import deque
 from numpy import loadtxt
 from algo_static import static_model
+from unidecode import unidecode
 
 import cv2 as cv
 import numpy as np
@@ -115,11 +116,17 @@ def load_gesture_data(gesture):
     
     csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
     with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
-        csvreader = csv.reader(csvfile)
+        csvreader = csv.reader(csvfile) 
         for row in csvreader:
             if len(row) < 2:
                 continue
-            if row[0].lower() == gesture.replace(" ", "").lower():
+            normalized_csv_word = unidecode(row[0].lower())
+            normalized_gesture = unidecode(re.sub(r'[.,"\'-?:!;]', '', gesture).replace(" ", "").lower())
+            print(normalized_csv_word)
+            print(normalized_gesture)
+            if normalized_csv_word == normalized_gesture:
+                print(normalized_csv_word)
+                print(normalized_gesture)
                 # The first column is the gesture number, so we skip that column
                 gesture_data.append([float(cell) for cell in row[2:]])
     return gesture_data

@@ -47,7 +47,7 @@ def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
     #query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND (dinamico = 0 OR señaID = 10 OR señaID = 10 OR señaID = 13 OR señaID = 30)"
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 2"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE dinamico = 1"
     cursor.execute(query)
     data = cursor.fetchall()
     
@@ -121,7 +121,6 @@ def process_frame_dynamic_hand():
         index = request.json.get('index')
         connection = mysql.connector.connect(**mysql_config)
         cursor = connection.cursor()
-        print(index, "main")
         query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s AND paso = %s"
         cursor.execute(query, (id,index,))
         data = cursor.fetchall()

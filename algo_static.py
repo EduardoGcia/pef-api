@@ -5,9 +5,11 @@ import copy
 import argparse
 import ast
 import itertools
+import re
 from collections import Counter
 from collections import deque
 from numpy import loadtxt
+from unidecode import unidecode
 
 import cv2 as cv
 import numpy as np
@@ -166,7 +168,6 @@ def pre_process_landmark(landmark_list):
 
 # Function to load gesture data from CSV file
 def load_gesture_data(gesture_number, dynamic, index):
-    print(index)
     gesture_data = []
     if dynamic:
         csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
@@ -175,7 +176,13 @@ def load_gesture_data(gesture_number, dynamic, index):
             for row in csvreader:
                 if len(row) < 2:
                     continue
-                if row[0].lower() == gesture_number.replace(" ", "").lower() and int(row[1]) == (index):
+                normalized_csv_word = unidecode(row[0].lower())
+                normalized_gesture = unidecode(re.sub(r'[.,"\'-?¿:!;]', '', gesture_number).replace(" ", "").lower())
+                print(normalized_csv_word)
+                print(normalized_gesture)
+                if normalized_csv_word == normalized_gesture and int(row[1]) == (index):
+                    print(normalized_csv_word)
+                    print(normalized_gesture)
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[2:]])
     else:
