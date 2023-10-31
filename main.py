@@ -47,7 +47,7 @@ def load_available_rows():
     connection = mysql.connector.connect(**mysql_config)
     cursor = connection.cursor()
     #query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE leccionID = 1 AND (dinamico = 0 OR señaID = 10 OR señaID = 10 OR señaID = 13 OR señaID = 30)"
-    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña WHERE dinamico = 1"
+    query = "SELECT titulo, video, definicion, imagen, dinamico, señaID FROM seña"
     cursor.execute(query)
     data = cursor.fetchall()
     

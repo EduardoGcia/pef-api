@@ -122,11 +122,11 @@ def load_gesture_data(gesture):
                 continue
             normalized_csv_word = unidecode(row[0].lower())
             normalized_gesture = unidecode(re.sub(r'[.,"\'-?:!;]', '', gesture).replace(" ", "").lower())
-            print(normalized_csv_word)
-            print(normalized_gesture)
+            #print(normalized_csv_word)
+            #print(normalized_gesture)
             if normalized_csv_word == normalized_gesture:
-                print(normalized_csv_word)
-                print(normalized_gesture)
+                #print(normalized_csv_word)
+                #print(normalized_gesture)
                 # The first column is the gesture number, so we skip that column
                 gesture_data.append([float(cell) for cell in row[2:]])
     return gesture_data
@@ -134,6 +134,8 @@ def load_gesture_data(gesture):
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
+    # print(gesture_data)
+    # print(landmarks_in_real_time)
     try:
         if not gesture_data:
             return []
@@ -159,7 +161,7 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
 # Function to determine which keypoints should be moved based on differences and a treshold
 def get_keypoints_to_move(difference):
     keypoints_to_move = []
-    treshold = 0.20
+    treshold = 0.25
 
     for i, (diff_x, diff_y) in enumerate(difference):
         # Calculate the magnitude of the Euclidean difference
@@ -238,6 +240,8 @@ def find_best_matching_frames(frames, target_frames, gesture,THUMB_TRESHOLD, IND
                 difference_actual_frame2 = get_keypoints_to_move_mean(difference_actual_frame)
                 difference_best_match = calculate_difference(target_frame, best_matches[index])
                 difference_best_match2 = get_keypoints_to_move_mean(difference_best_match)
+                if index == 0: 
+                    difference_best_match2 = 10000.0
                 if difference_actual_frame2  < difference_best_match2:
                     # hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
                     # if hand_message == "No hay mano detectada":

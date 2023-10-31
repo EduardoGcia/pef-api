@@ -178,11 +178,11 @@ def load_gesture_data(gesture_number, dynamic, index):
                     continue
                 normalized_csv_word = unidecode(row[0].lower())
                 normalized_gesture = unidecode(re.sub(r'[.,"\'-?¿:!;]', '', gesture_number).replace(" ", "").lower())
-                print(normalized_csv_word)
-                print(normalized_gesture)
+                #print(normalized_csv_word)
+                #print(normalized_gesture)
                 if normalized_csv_word == normalized_gesture and int(row[1]) == (index):
-                    print(normalized_csv_word)
-                    print(normalized_gesture)
+                    #print(normalized_csv_word)
+                    #print(normalized_gesture)
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[2:]])
     else:
