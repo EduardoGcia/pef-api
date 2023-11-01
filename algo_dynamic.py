@@ -121,7 +121,7 @@ def load_gesture_data(gesture):
             if len(row) < 2:
                 continue
             normalized_csv_word = unidecode(row[0].lower())
-            normalized_gesture = unidecode(re.sub(r'[.,"\'-?:!;]', '', gesture).replace(" ", "").lower())
+            normalized_gesture = unidecode(re.sub(r'[.,"\'-?¿:!;]', '', gesture).replace(" ", "").lower())
             #print(normalized_csv_word)
             #print(normalized_gesture)
             if normalized_csv_word == normalized_gesture:
@@ -235,13 +235,14 @@ def find_best_matching_frames(frames, target_frames, gesture,THUMB_TRESHOLD, IND
         else:
             index = 0
             for target_frame in target_frames:
-                
                 difference_actual_frame = calculate_difference(target_frame, pre_processed_landmark_list)
                 difference_actual_frame2 = get_keypoints_to_move_mean(difference_actual_frame)
                 difference_best_match = calculate_difference(target_frame, best_matches[index])
                 difference_best_match2 = get_keypoints_to_move_mean(difference_best_match)
                 if index == 0: 
                     difference_best_match2 = 10000.0
+                print(difference_best_match2)
+                print(difference_actual_frame2)
                 if difference_actual_frame2  < difference_best_match2:
                     # hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
                     # if hand_message == "No hay mano detectada":
@@ -253,5 +254,6 @@ def find_best_matching_frames(frames, target_frames, gesture,THUMB_TRESHOLD, IND
                     index += 1
         frame_counter += 1
     #return best_matches_differences, hand_messages
+    #print(best_matches_differences)
     return best_matches_differences
 

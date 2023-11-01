@@ -117,11 +117,11 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
                 # Messages for the most frequent correction by hand movement
                 if hand_movement:
                     most_frequent_hand_movement = max(hand_movement, key=hand_movement.get)
-                    hand_message = f"Gira tu mano hacia {most_frequent_hand_movement}"
+                    hand_message = f"Rota tu muñeca hacia {most_frequent_hand_movement}"
                     if most_frequent_hand_movement == "Arriba" or most_frequent_hand_movement == "Abajo":
-                        hand_message = f"Gira tu mano hacia {most_frequent_hand_movement}"
+                        hand_message = f"Rota tu muñeca hacia {most_frequent_hand_movement}"
                     else:
-                        hand_message = f"Gira tu mano hacia la {most_frequent_hand_movement}"
+                        hand_message = f"Rota tu muñeca hacia la {most_frequent_hand_movement}"
                     messages.append(hand_message)
 
                 # Messages for the most frequent correction by finger
