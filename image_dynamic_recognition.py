@@ -30,15 +30,15 @@ def main():
 
                     image.flags.writeable = True
                     name, extension = os.path.splitext(file)
-                    name, name_ord = name.split('_')
-                    image_to_landmarks(image, results, name, name_ord)
+                    name, name_ord_1, name_ord_2 = name.split('_')
+                    image_to_landmarks(image, results, name, name_ord_1, name_ord_2)
     except Exception as e:
         print("e 46 image recognition")
         print(e)
 
 
 # Get the landmarks from an image
-def image_to_landmarks(image, results, name, name_ord):
+def image_to_landmarks(image, results, name, name_ord_1, name_ord_2):
     landmarks_list = []
     if results.pose_landmarks:
         for idx,point in enumerate (results.pose_landmarks.landmark):
@@ -47,11 +47,11 @@ def image_to_landmarks(image, results, name, name_ord):
             landmarks_list.append([x, y])
         pre_processed_landmark_list = pre_process_landmark(
                         landmarks_list)
-        logging_csv(pre_processed_landmark_list, name, name_ord)
+        logging_csv(pre_processed_landmark_list, name, name_ord_1, name_ord_2)
     else:
         #TODO VER POR QUÉ NO FUNCIONA EL SI #1
         print(name)
-        print(name_ord)
+        print(name_ord_1, name_ord_2)
         pass
     return
 
@@ -86,11 +86,11 @@ def pre_process_landmark(landmark_list):
 
 
 # Saves the data to a csv
-def logging_csv(landmarks_list, name, name_ord):
+def logging_csv(landmarks_list, name, name_ord_1, name_ord_2):
     csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
     with open(csv_path, 'a', newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow([name.lower(), name_ord, *landmarks_list])
+        writer.writerow([name.lower(), name_ord_1, name_ord_2, *landmarks_list])
         
     return
 

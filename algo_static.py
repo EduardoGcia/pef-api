@@ -71,7 +71,8 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
             base_landmark = landmarks_list[0]
             pre_processed_landmark_list = pre_process_landmark(
                     landmarks_list)
-            gesture_data = load_gesture_data(palabra, dynamic, index)
+            gesture_data_arr = load_gesture_data(palabra, dynamic, index)
+            gesture_data = find_best_image(gesture_data_arr, pre_processed_landmark_list)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
             keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index)
             movement_direction = determine_movement_direction(keypoints_to_move)
@@ -197,6 +198,23 @@ def load_gesture_data(gesture_number, dynamic, index):
                     gesture_data.append([float(cell) for cell in row[1:]])
     return gesture_data
 
+def find_best_image(gesture_data_arr, landmarks_in_real_time):
+
+    difference = 0
+    index = 0
+    for gesture_data in gesture_data_arr:
+        if index == 0:
+            difference_actual = calculate_difference([gesture_data], landmarks_in_real_time)
+            difference_actual = get_keypoints_to_move_mean(difference_actual)
+            best_match = gesture_data
+            difference = difference_actual
+        else:
+            difference_actual = calculate_difference([gesture_data], landmarks_in_real_time)
+            difference_actual = get_keypoints_to_move_mean(difference_actual)
+            if difference_actual < difference:
+                best_match = gesture_data
+
+    return [best_match]
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
@@ -299,6 +317,14 @@ def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THU
                     fingers_done[i] = True
         
     return keypoints_to_move, fingers_done
+
+def get_keypoints_to_move_mean(difference):
+    total = 0
+    for i, (diff_x, diff_y) in enumerate(difference):
+        diff_magnitude = (diff_x**2 + diff_y**2)**0.5
+        total += diff_magnitude
+    total /= 20
+    return total
 
 
 # Determine the direction of movement based on the difference in x and y coordinates

@@ -66,7 +66,7 @@ load_available_rows()
 # Ruta para obtener frames de la camara (estaticos)
 @app.route('/process_frame', methods=['POST'])
 def process_frame():
-    try:
+    #try:
         frame = request.json.get('frame')
         palabra = request.json.get('palabra')
         id = request.json.get('palabraId')
@@ -83,8 +83,8 @@ def process_frame():
         with open('datos_recibidos.txt', 'w') as archivo:
             archivo.write(str(respuesta[1]))
         return jsonify(respuesta[0])
-    except Exception as e:
-        return jsonify({"error": str(e)})
+    # except Exception as e:
+    #     return jsonify({"error": str(e)})
     
 # Ruta para obtener frames de la camara (dinamicos)
 @app.route('/process_frame_dynamic', methods=['POST'])
@@ -97,13 +97,13 @@ def process_frame_dynamic():
         connection = mysql.connector.connect(**mysql_config)
         cursor = connection.cursor()
         
-        query = "SELECT pulgar, indice, medio, anular, meñique FROM umbrales WHERE señaID = %s AND paso = 1"
+        query = "SELECT umbral FROM umbralesPose WHERE señaID = %s"
         cursor.execute(query, (id,))
         data = cursor.fetchall()
         if len(data) == 0:
             respuesta = dynamic_model(frames, palabra, pasos)
         else:
-            respuesta = dynamic_model(frames, palabra, pasos, data[0][0], data[0][1], data[0][2], data[0][3], data[0][4])
+            respuesta = dynamic_model(frames, palabra, pasos, data[0][0])
             #print(respuesta)
         return jsonify(respuesta)
     # except Exception as e:

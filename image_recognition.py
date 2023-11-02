@@ -26,6 +26,7 @@ def main():
             results = hands.process(image)
             image.flags.writeable = True
             name, extension = os.path.splitext(file)
+            name, name_ord = name.split('_')
             image_to_landmarks(image, results, name)
 
 
@@ -43,6 +44,10 @@ def image_to_landmarks(image, results, name):
             pre_processed_landmark_list = pre_process_landmark(
                         landmarks_list)
             logging_csv(pre_processed_landmark_list, name)
+    else:
+        #TODO VER POR QUÉ NO FUNCIONA EL SI #1
+        print(name)
+        pass
     return
 
 

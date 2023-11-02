@@ -32,7 +32,7 @@ def main():
 
                         image.flags.writeable = True
                         name, extension = os.path.splitext(file)
-                        name, name_ord = name.split('_')
+                        name, name_ord, name_ord_2 = name.split('_')
                         image_to_landmarks(image, results_hands, name, name_ord)
                     except:
                         pass
