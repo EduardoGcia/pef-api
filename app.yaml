@@ -1,0 +1,25 @@
+runtime: python310  # Debes especificar la versión de Python que estás utilizando
+entrypoint: gunicorn -b :$PORT main:app
+instance_class: F2  # El tipo de instancia que deseas utilizar
+
+handlers:
+- url: /static
+  static_dir: static  # Directorio donde se encuentran los recursos estáticos (imágenes, videos, etc.)
+- url: /images
+  static_dir: model/images  # Ruta a las imágenes
+- url: /images_dynamic
+  static_dir: model/images_dynamic  # Ruta a las imágenes dinámicas
+- url: /images_dynamic_hand_change
+  static_dir: model/images_dynamic_hand_change  # Ruta a las imágenes dinámicas de cambio de mano
+- url: /model
+  static_dir: model  # Ruta a otros recursos estáticos (si los tienes)
+- url: /.*
+  script: auto  # Esto manejará todas las demás rutas y utilizará el archivo principal de la aplicación
+
+
+env_variables:
+  DB_HOST: 35.239.216.194
+  CLOUD_SQL_USERNAME: pef
+  CLOUD_SQL_PASSWORD: lsmsenas
+  CLOUD_SQL_DATABASE_NAME: lsm-senas
+  CLOUD_SQL_CONNECTION_NAME: seventh-chassis-403917:us-central1:lsm-senas

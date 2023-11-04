@@ -1,0 +1,464 @@
+Folder PATH listing
+Volume serial number is 223D-64A7
+C:.
+¦   .env
+¦   .gitignore
+¦   algo_dynamic.py
+¦   algo_static.py
+¦   app.yaml
+¦   datos_recibidos.txt
+¦   image_dynamic_hand_recognition.py
+¦   image_dynamic_recognition.py
+¦   image_recognition.py
+¦   main.py
+¦   tree.txt
+¦   
++---model
+¦   ¦   images_dynamic - Shortcut.lnk
+¦   ¦   
+¦   +---images
+¦   ¦       A_1.jpg
+¦   ¦       A_10.jpg
+¦   ¦       A_2.jpg
+¦   ¦       A_3.jpg
+¦   ¦       A_4.jpg
+¦   ¦       A_5.jpg
+¦   ¦       A_6.jpg
+¦   ¦       A_7.jpg
+¦   ¦       A_8.jpg
+¦   ¦       A_9.jpg
+¦   ¦       B_1.jpg
+¦   ¦       B_10.jpg
+¦   ¦       B_2.jpg
+¦   ¦       B_3.jpg
+¦   ¦       B_4.jpg
+¦   ¦       B_5.jpg
+¦   ¦       B_7.jpg
+¦   ¦       B_8.jpg
+¦   ¦       C_1.png
+¦   ¦       C_2.png
+¦   ¦       C_3.png
+¦   ¦       D_1.png
+¦   ¦       E_1.png
+¦   ¦       F_1.png
+¦   ¦       G_1.png
+¦   ¦       H_1.png
+¦   ¦       I_1.png
+¦   ¦       J_1.png
+¦   ¦       L_1.png
+¦   ¦       mabc_1.png
+¦   ¦       M_1.png
+¦   ¦       nabc_1.png
+¦   ¦       N_1.png
+¦   ¦       O_1.png
+¦   ¦       O_2.png
+¦   ¦       O_3.png
+¦   ¦       O_4.png
+¦   ¦       P_1.png
+¦   ¦       R_1.png
+¦   ¦       S_1.png
+¦   ¦       T_1.png
+¦   ¦       T_2.png
+¦   ¦       T_3.png
+¦   ¦       T_4.png
+¦   ¦       T_5.png
+¦   ¦       T_6.png
+¦   ¦       U_1.png
+¦   ¦       vabc_1.png
+¦   ¦       V_1.png
+¦   ¦       W_1.png
+¦   ¦       X_1.png
+¦   ¦       Y_1.png
+¦   ¦       z_1.png
+¦   ¦       
+¦   +---images_dynamic
+¦   ¦   +---bien
+¦   ¦   ¦       bien_1_1.png
+¦   ¦   ¦       bien_1_2.jpg
+¦   ¦   ¦       bien_1_3.jpg
+¦   ¦   ¦       bien_1_4.jpg
+¦   ¦   ¦       bien_1_5.jpg
+¦   ¦   ¦       bien_1_6.jpg
+¦   ¦   ¦       bien_2_1.png
+¦   ¦   ¦       bien_2_10.jpg
+¦   ¦   ¦       bien_2_11.jpg
+¦   ¦   ¦       bien_2_12.jpg
+¦   ¦   ¦       bien_2_13.jpg
+¦   ¦   ¦       bien_2_14.jpg
+¦   ¦   ¦       bien_2_2.jpg
+¦   ¦   ¦       bien_2_3.jpg
+¦   ¦   ¦       bien_2_4.jpg
+¦   ¦   ¦       bien_2_5.jpg
+¦   ¦   ¦       bien_2_6.jpg
+¦   ¦   ¦       bien_2_7.jpg
+¦   ¦   ¦       bien_2_8.jpg
+¦   ¦   ¦       bien_2_9.jpg
+¦   ¦   ¦       
+¦   ¦   +---buenasnoches
+¦   ¦   ¦       buenasnoches_1_1.png
+¦   ¦   ¦       buenasnoches_1_10.jpg
+¦   ¦   ¦       buenasnoches_1_11.jpg
+¦   ¦   ¦       buenasnoches_1_2.jpg
+¦   ¦   ¦       buenasnoches_1_3.jpg
+¦   ¦   ¦       buenasnoches_1_4.jpg
+¦   ¦   ¦       buenasnoches_1_5.jpg
+¦   ¦   ¦       buenasnoches_1_6.jpg
+¦   ¦   ¦       buenasnoches_1_7.jpg
+¦   ¦   ¦       buenasnoches_1_8.jpg
+¦   ¦   ¦       buenasnoches_1_9.jpg
+¦   ¦   ¦       buenasnoches_2_1.png
+¦   ¦   ¦       buenasnoches_2_10.jpg
+¦   ¦   ¦       buenasnoches_2_11.jpg
+¦   ¦   ¦       buenasnoches_2_12.jpg
+¦   ¦   ¦       buenasnoches_2_2.jpg
+¦   ¦   ¦       buenasnoches_2_3.jpg
+¦   ¦   ¦       buenasnoches_2_4.jpg
+¦   ¦   ¦       buenasnoches_2_5.jpg
+¦   ¦   ¦       buenasnoches_2_6.jpg
+¦   ¦   ¦       buenasnoches_2_7.jpg
+¦   ¦   ¦       buenasnoches_2_8.jpg
+¦   ¦   ¦       buenasnoches_2_9.jpg
+¦   ¦   ¦       buenasnoches_3_1.png
+¦   ¦   ¦       buenasnoches_3_10.jpg
+¦   ¦   ¦       buenasnoches_3_11.jpg
+¦   ¦   ¦       buenasnoches_3_2.jpg
+¦   ¦   ¦       buenasnoches_3_3.jpg
+¦   ¦   ¦       buenasnoches_3_4.jpg
+¦   ¦   ¦       buenasnoches_3_5.jpg
+¦   ¦   ¦       buenasnoches_3_6.jpg
+¦   ¦   ¦       buenasnoches_3_7.jpg
+¦   ¦   ¦       buenasnoches_3_8.jpg
+¦   ¦   ¦       buenasnoches_3_9.jpg
+¦   ¦   ¦       buenasnoches_4_1.png
+¦   ¦   ¦       buenasnoches_4_10.jpg
+¦   ¦   ¦       buenasnoches_4_11.jpg
+¦   ¦   ¦       buenasnoches_4_2.jpg
+¦   ¦   ¦       buenasnoches_4_3.jpg
+¦   ¦   ¦       buenasnoches_4_4.jpg
+¦   ¦   ¦       buenasnoches_4_5.jpg
+¦   ¦   ¦       buenasnoches_4_6.jpg
+¦   ¦   ¦       buenasnoches_4_7.jpg
+¦   ¦   ¦       buenasnoches_4_8.jpg
+¦   ¦   ¦       buenasnoches_4_9.jpg
+¦   ¦   ¦       
+¦   ¦   +---denada
+¦   ¦   ¦       denada_1_1.png
+¦   ¦   ¦       denada_1_2.png
+¦   ¦   ¦       denada_1_3.jpg
+¦   ¦   ¦       denada_1_4.jpg
+¦   ¦   ¦       denada_1_5.jpg
+¦   ¦   ¦       denada_1_6.jpg
+¦   ¦   ¦       denada_1_7.jpg
+¦   ¦   ¦       denada_2_1.png
+¦   ¦   ¦       denada_2_10.jpg
+¦   ¦   ¦       denada_2_11.jpg
+¦   ¦   ¦       denada_2_12.jpg
+¦   ¦   ¦       denada_2_13.jpg
+¦   ¦   ¦       denada_2_14.jpg
+¦   ¦   ¦       denada_2_15.jpg
+¦   ¦   ¦       denada_2_2.png
+¦   ¦   ¦       denada_2_3.jpg
+¦   ¦   ¦       denada_2_4.jpg
+¦   ¦   ¦       denada_2_5.jpg
+¦   ¦   ¦       denada_2_6.jpg
+¦   ¦   ¦       denada_2_7.jpg
+¦   ¦   ¦       denada_2_8.jpg
+¦   ¦   ¦       denada_2_9.jpg
+¦   ¦   ¦       
+¦   ¦   +---hola
+¦   ¦   ¦       hola_1_1.png
+¦   ¦   ¦       hola_1_2.png
+¦   ¦   ¦       hola_1_3.png
+¦   ¦   ¦       hola_1_4.png
+¦   ¦   ¦       hola_2_2.png
+¦   ¦   ¦       hola_2_3.png
+¦   ¦   ¦       
+¦   ¦   +---j
+¦   ¦   ¦       j_1_1.png
+¦   ¦   ¦       j_1_2.png
+¦   ¦   ¦       j_1_3.png
+¦   ¦   ¦       j_1_4.png
+¦   ¦   ¦       j_1_5.png
+¦   ¦   ¦       j_2_1.png
+¦   ¦   ¦       j_2_2.png
+¦   ¦   ¦       j_2_3.png
+¦   ¦   ¦       j_2_4.png
+¦   ¦   ¦       j_2_5.png
+¦   ¦   ¦       j_2_6.png
+¦   ¦   ¦       
+¦   ¦   +---k
+¦   ¦   ¦       k_1_1.png
+¦   ¦   ¦       k_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---ll
+¦   ¦   ¦       ll_1_1.png
+¦   ¦   ¦       ll_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---mal
+¦   ¦   ¦       mal_1_1.png
+¦   ¦   ¦       mal_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---masomenos
+¦   ¦   ¦       masomenos_1_1.png
+¦   ¦   ¦       masomenos_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---minombre
+¦   ¦   ¦       minombre_1_1.png
+¦   ¦   ¦       minombre_2_1.png
+¦   ¦   ¦       minombre_3_1.png
+¦   ¦   ¦       
+¦   ¦   +---n
+¦   ¦   ¦       n_1_1.png
+¦   ¦   ¦       n_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---no
+¦   ¦   ¦       no_1_1.png
+¦   ¦   ¦       no_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---q
+¦   ¦   ¦       q_1_1.png
+¦   ¦   ¦       q_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---rr
+¦   ¦   ¦       rr_1_1.png
+¦   ¦   ¦       rr_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---si
+¦   ¦   ¦       si_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---tunombre
+¦   ¦   ¦       tunombre_1_1.png
+¦   ¦   ¦       tunombre_2_1.png
+¦   ¦   ¦       tunombre_3_1.png
+¦   ¦   ¦       
+¦   ¦   +---x
+¦   ¦   ¦       x_1_1.png
+¦   ¦   ¦       x_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---z
+¦   ¦           z_1_1.png
+¦   ¦           z_2_1.png
+¦   ¦           z_3_1.png
+¦   ¦           z_4_1.png
+¦   ¦           
+¦   +---images_dynamic_hand_change
+¦   ¦   +---bien
+¦   ¦   ¦       bien_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---buenasnoches
+¦   ¦   ¦       buenasnoches_1_1.png
+¦   ¦   ¦       buenasnoches_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---denada
+¦   ¦   ¦       denada_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---hola
+¦   ¦   ¦       hola_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---j
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       j_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---k
+¦   ¦   ¦       k_1_1.png
+¦   ¦   ¦       k_1_10.png
+¦   ¦   ¦       k_1_11.png
+¦   ¦   ¦       k_1_12.png
+¦   ¦   ¦       k_1_13.png
+¦   ¦   ¦       k_1_2.png
+¦   ¦   ¦       k_1_3.png
+¦   ¦   ¦       k_1_4.png
+¦   ¦   ¦       k_1_5.png
+¦   ¦   ¦       k_1_6.png
+¦   ¦   ¦       k_1_7.png
+¦   ¦   ¦       k_1_8.png
+¦   ¦   ¦       k_1_9.png
+¦   ¦   ¦       
+¦   ¦   +---ll
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       ll_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---mal
+¦   ¦   ¦       mal_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---masomenos
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       masomenos_1_1.png
+¦   ¦   ¦       masomenos_1_2.png
+¦   ¦   ¦       masomenos_1_3.png
+¦   ¦   ¦       masomenos_1_4.png
+¦   ¦   ¦       masomenos_1_5.png
+¦   ¦   ¦       
+¦   ¦   +---minombre
+¦   ¦   ¦       minombre_1_1.png
+¦   ¦   ¦       minombre_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---n
+¦   ¦   ¦       n_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---no
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       no_1_1.png
+¦   ¦   ¦       no_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---q
+¦   ¦   ¦       q_1_1.png
+¦   ¦   ¦       q_1_10.png
+¦   ¦   ¦       q_1_2.png
+¦   ¦   ¦       q_1_3.png
+¦   ¦   ¦       q_1_4.png
+¦   ¦   ¦       q_1_5.png
+¦   ¦   ¦       q_1_6.png
+¦   ¦   ¦       q_1_7.png
+¦   ¦   ¦       q_1_8.png
+¦   ¦   ¦       q_1_9.png
+¦   ¦   ¦       
+¦   ¦   +---rr
+¦   ¦   ¦       rr_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---si
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       si_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---tunombre
+¦   ¦   ¦       abc_1_1.png
+¦   ¦   ¦       tunombre_1_1.png
+¦   ¦   ¦       tunombre_1_10.png
+¦   ¦   ¦       tunombre_1_11.png
+¦   ¦   ¦       tunombre_1_2.png
+¦   ¦   ¦       tunombre_1_3.png
+¦   ¦   ¦       tunombre_1_4.png
+¦   ¦   ¦       tunombre_1_5.png
+¦   ¦   ¦       tunombre_1_6.png
+¦   ¦   ¦       tunombre_1_7.png
+¦   ¦   ¦       tunombre_1_8.png
+¦   ¦   ¦       tunombre_1_9.png
+¦   ¦   ¦       tunombre_2_1.png
+¦   ¦   ¦       
+¦   ¦   +---x
+¦   ¦   ¦       x_1_1.png
+¦   ¦   ¦       
+¦   ¦   +---z
+¦   ¦           z_1_1.png
+¦   ¦           z_1_10.png
+¦   ¦           z_1_11.png
+¦   ¦           z_1_12.png
+¦   ¦           z_1_13.png
+¦   ¦           z_1_2.png
+¦   ¦           z_1_3.png
+¦   ¦           z_1_4.png
+¦   ¦           z_1_5.png
+¦   ¦           z_1_6.png
+¦   ¦           z_1_7.png
+¦   ¦           z_1_8.png
+¦   ¦           z_1_9.png
+¦   ¦           
+¦   +---keypoint_classifier
+¦           keypoint_image.csv
+¦           keypoint_image_dynamic.csv
+¦           keypoint_image_hand_dynamic.csv
+¦           
++---static
+¦   ¦   .DS_Store
+¦   ¦   
+¦   +---images
+¦   ¦       A.jpeg
+¦   ¦       a.png
+¦   ¦       abecedario.png
+¦   ¦       B copy.png
+¦   ¦       b.png
+¦   ¦       bien.png
+¦   ¦       bienvenido.png
+¦   ¦       buenasnoches.png
+¦   ¦       buenastardes.png
+¦   ¦       buenosdias.png
+¦   ¦       C copy.png
+¦   ¦       c.png
+¦   ¦       comoestas.png
+¦   ¦       D copy.png
+¦   ¦       d.png
+¦   ¦       denada.png
+¦   ¦       E copy.png
+¦   ¦       e.png
+¦   ¦       F copy.png
+¦   ¦       f.png
+¦   ¦       G copy.png
+¦   ¦       g.png
+¦   ¦       gracias.png
+¦   ¦       H copy.png
+¦   ¦       h.png
+¦   ¦       hola.png
+¦   ¦       I copy.png
+¦   ¦       i.png
+¦   ¦       j.png
+¦   ¦       k.png
+¦   ¦       L copy.png
+¦   ¦       l.png
+¦   ¦       ll.png
+¦   ¦       M copy.png
+¦   ¦       m.png
+¦   ¦       mal.png
+¦   ¦       masomenos.png
+¦   ¦       minombre.png
+¦   ¦       N copy.png
+¦   ¦       n.png
+¦   ¦       no.png
+¦   ¦       O copy.png
+¦   ¦       o.png
+¦   ¦       P copy.png
+¦   ¦       p.png
+¦   ¦       porfavor.png
+¦   ¦       q.png
+¦   ¦       R copy.png
+¦   ¦       r.png
+¦   ¦       rr.png
+¦   ¦       S copy.png
+¦   ¦       s.png
+¦   ¦       saludos.png
+¦   ¦       si.png
+¦   ¦       T copy.png
+¦   ¦       t.png
+¦   ¦       tunombre.png
+¦   ¦       U copy.png
+¦   ¦       u.png
+¦   ¦       V copy.png
+¦   ¦       v.png
+¦   ¦       W copy.png
+¦   ¦       w.png
+¦   ¦       x.png
+¦   ¦       Y copy.png
+¦   ¦       y.png
+¦   ¦       z copy.png
+¦   ¦       z.png
+¦   ¦       ñ.png
+¦   ¦       
+¦   +---videos
+¦           bien.mp4
+¦           bienvenido.mp4
+¦           buenasnoches.mp4
+¦           buenastardes.mp4
+¦           buenosdias.mp4
+¦           comoestas.mp4
+¦           denada.mp4
+¦           gracias.mp4
+¦           hola.mp4
+¦           j.mp4
+¦           k.mp4
+¦           ll.mp4
+¦           mal.mp4
+¦           masomenos.mp4
+¦           minombre.mp4
+¦           no.mp4
+¦           porfavor.mp4
+¦           q.mp4
+¦           rr.mp4
+¦           si.mp4
+¦           tunombre.mp4
+¦           x.mp4
+¦           z.mp4
+¦           ñ.mp4
+¦           
++---__pycache__
+        algo_dynamic.cpython-310.pyc
+        algo_static.cpython-310.pyc
+        
