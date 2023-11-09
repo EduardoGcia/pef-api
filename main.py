@@ -255,7 +255,12 @@ def seccion_random():
     served_rows.append(selected_row)
 
     return jsonify(selected_row)
+
+@app.route('/')
+@app.route('/<path:path>')
+def catch_all(path='index.html'):
+    return render_template(path)
         
 
 if __name__ == '__main__':
-    app.run(debug=True, port=4000)
+    app.run(host="34.125.128.49",debug=True, port=5000)
