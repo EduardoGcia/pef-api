@@ -5,6 +5,7 @@ import copy
 import itertools
 import os
 
+
 def main():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
@@ -55,7 +56,6 @@ def image_to_landmarks(image, results, name, name_ord):
                         landmarks_list)
             logging_csv(pre_processed_landmark_list, name, name_ord)
     else:
-        #TODO VER POR QUÉ NO FUNCIONA EL SI #1
         print(name)
         print(name_ord)
         pass

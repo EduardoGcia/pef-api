@@ -5,6 +5,7 @@ import copy
 import itertools
 import os
 
+
 def main():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
@@ -14,12 +15,12 @@ def main():
         os.remove(csv_path)
     except:
         pass
-    directorio = 'model/images/'
-    for file in os.listdir(directorio):
-        if os.path.isfile(os.path.join(directorio, file)):
+    directory = 'model/images/'
+    for file in os.listdir(directory):
+        if os.path.isfile(os.path.join(directory, file)):
             # Image load
-            (os.path.join(directorio, file))
-            image = cv2.imread(os.path.join(directorio, file))
+            (os.path.join(directory, file))
+            image = cv2.imread(os.path.join(directory, file))
             image = cv2.flip(image, 1) 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
@@ -45,7 +46,6 @@ def image_to_landmarks(image, results, name):
                         landmarks_list)
             logging_csv(pre_processed_landmark_list, name)
     else:
-        #TODO VER POR QUÉ NO FUNCIONA EL SI #1
         print(name)
         pass
     return

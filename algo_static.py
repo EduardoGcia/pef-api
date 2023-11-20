@@ -17,12 +17,15 @@ import mediapipe as mp
 import base64
 
 
-def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15, index=0, dynamic=False):
+# Main function for getting the error messages
+def static_model(frame, word, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MIDDLE_TRESHOLD=0.15, RING_TRESHOLD=0.15, PINKY_TRESHOLD=0.15, index=0, dynamic=False):
     with open("datos_recibidos.txt", "r") as archivo:
-        contenido = archivo.read()
-    fingers_done = ast.literal_eval(contenido)
+        content = archivo.read()
+
+    fingers_done = ast.literal_eval(content)
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands()
+
     # Defines the name for each keypoint in the hand
     hand_dictionary = {
         0: "Muñeca (Wrist)",
@@ -47,8 +50,6 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
         19: "finger meñique - Articulación interfalángica distal (Pinky_dip)",
         20: "finger meñique - Punta del finger (Pinky_tip)"
     }
-    #fingers_done = [False, False, False, False, False]
-    gesture_number = -1
 
     image = np.frombuffer(base64.b64decode(frame), np.uint8)
     image = cv.imdecode(image, cv.IMREAD_COLOR)
@@ -57,9 +58,11 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
     image.flags.writeable = False
     results = hands.process(image)
     image.flags.writeable = True
+
     messages = []
     fingers_done_return = [False, False, False, False, False]
     landmarks_list = []
+
     if results.multi_hand_landmarks:
         for landmarks in results.multi_hand_landmarks:
             for idx, point in enumerate(landmarks.landmark):
@@ -71,10 +74,10 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
             base_landmark = landmarks_list[0]
             pre_processed_landmark_list = pre_process_landmark(
                     landmarks_list)
-            gesture_data_arr = load_gesture_data(palabra, dynamic, index)
+            gesture_data_arr = load_gesture_data(word, dynamic, index)
             gesture_data = find_best_image(gesture_data_arr, pre_processed_landmark_list)
             difference = calculate_difference(gesture_data, pre_processed_landmark_list)
-            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, palabra, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index)
+            keypoints_to_move, fingers_done_return = get_keypoints_to_move(difference, fingers_done, word, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index)
             movement_direction = determine_movement_direction(keypoints_to_move)
             if len(movement_direction) == 0:
                 messages.append("Correcto")
@@ -136,6 +139,7 @@ def static_model(frame, palabra, THUMB_TRESHOLD = 0.15, INDEX_TRESHOLD =0.15, MI
                         messages.append(message)
     else:
         messages.append("No hay mano detectada")
+
     return [messages, fingers_done_return]
 
 
@@ -145,6 +149,7 @@ def pre_process_landmark(landmark_list):
 
     # Convert to relative coordinates
     base_x, base_y = 0, 0
+
     for index, landmark_point in enumerate(temp_landmark_list):
         if index == 0:
             base_x, base_y = landmark_point[0], landmark_point[1]
@@ -170,38 +175,40 @@ def pre_process_landmark(landmark_list):
 # Function to load gesture data from CSV file
 def load_gesture_data(gesture_number, dynamic, index):
     gesture_data = []
+
     if dynamic:
         csv_path = 'model/keypoint_classifier/keypoint_image_hand_dynamic.csv'
         with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
             csvreader = csv.reader(csvfile)
+
             for row in csvreader:
                 if len(row) < 2:
                     continue
                 normalized_csv_word = unidecode(row[0].lower())
                 normalized_gesture = unidecode(re.sub(r'[.,"\'-?¿:!;]', '', gesture_number).replace(" ", "").lower())
-                #print(normalized_csv_word)
-                #print(normalized_gesture)
                 if normalized_csv_word == normalized_gesture and int(row[1]) == (index):
-                    #print(normalized_csv_word)
-                    #print(normalized_gesture)
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[2:]])
     else:
         csv_path = 'model/keypoint_classifier/keypoint_image.csv'
         with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
             csvreader = csv.reader(csvfile)
+
             for row in csvreader:
                 if len(row) < 2:
                     continue
                 if row[0] == gesture_number.lower():
                     # The first column is the gesture number, so we skip that column
                     gesture_data.append([float(cell) for cell in row[1:]])
+
     return gesture_data
 
-def find_best_image(gesture_data_arr, landmarks_in_real_time):
 
+# Get the frame that best fits the gesture
+def find_best_image(gesture_data_arr, landmarks_in_real_time):
     difference = 0
     index = 0
+
     for gesture_data in gesture_data_arr:
         if index == 0:
             difference_actual = calculate_difference([gesture_data], landmarks_in_real_time)
@@ -216,16 +223,17 @@ def find_best_image(gesture_data_arr, landmarks_in_real_time):
 
     return [best_match]
 
+
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
-    #print(gesture_data)
-    #print(landmarks_in_real_time)
     if not gesture_data:
         return []
     if len(landmarks_in_real_time) != len(gesture_data[0]):
         raise ValueError("Las listas de coordenadas no tienen la misma longitud")
+    
     difference = []
     num_keypoints = len(gesture_data[0])
+
     for i in range(0, num_keypoints, 2):
         x1 = gesture_data[0][i]
         y1 = gesture_data[0][i+1]
@@ -234,6 +242,7 @@ def calculate_difference(gesture_data, landmarks_in_real_time):
         diff_x = x2 - x1
         diff_y = y2 - y1
         difference.append((diff_x, diff_y))
+
     return difference
 
 
@@ -257,6 +266,7 @@ def treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDL
 def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index):
     keypoints_to_move = []
     fingers_done_count = [True, True, True, True, True]
+
     for i, (diff_x, diff_y) in enumerate(difference):
         treshold = treshold_calculator(gesture_number, i, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, dynamic, index)
         treshold_done = treshold + 0.02
@@ -317,6 +327,7 @@ def get_keypoints_to_move(difference, fingers_done, gesture_number, dynamic, THU
                     fingers_done[i] = True
         
     return keypoints_to_move, fingers_done
+
 
 def get_keypoints_to_move_mean(difference):
     total = 0

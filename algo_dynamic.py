@@ -53,18 +53,16 @@ import base64
 #     32: "right foot index",
 # }
 
+# Main function for getting the error messages
 def dynamic_model(frames, gesture, steps, treshold = 0.15):
     pose_messages = []
-    #hand_messages = []
     gesture_data = load_gesture_data(gesture, steps)
-
-
-    #matching_frames, hand_messages = find_best_matching_frames(frames, gesture_data, gesture, THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD)
     matching_frames = find_best_matching_frames(frames, gesture_data, gesture)
-    #print(matching_frames)
+
     for match in matching_frames:
         keypoints_to_move = get_keypoints_to_move(match, treshold)
         movement_direction = determine_movement_direction(keypoints_to_move)
+
         if len(movement_direction) == 0:
                 pose_messages.append("Correcto")
         else:
@@ -73,13 +71,16 @@ def dynamic_model(frames, gesture, steps, treshold = 0.15):
     return pose_messages
 
 
+#Converts a image to a list of landmarks
 def image_to_landmarks(image, results):
     landmark_list = []
+
     if results.pose_landmarks:
         for idx,point in enumerate (results.pose_landmarks.landmark):
             x = min(int(point.x * image.shape[1]), image.shape[1] - 1)
             y = min(int(point.y * image.shape[0]), image.shape[0] - 1)
             landmark_list.append([x, y])
+
     return landmark_list
 
 
@@ -89,6 +90,7 @@ def pre_process_landmark(landmark_list):
 
     # Convert to relative coordinates
     base_x, base_y = 0, 0
+
     for index, landmark_point in enumerate(temp_landmark_list):
         if index == 0:
             base_x, base_y = landmark_point[0], landmark_point[1]
@@ -114,32 +116,26 @@ def pre_process_landmark(landmark_list):
 # Loads the normalized values for a gesture
 def load_gesture_data(gesture, steps):
     gesture_data = [[] for i in range(steps)]
-    print(gesture_data)
-    gesture_data_step = []
     
     csv_path = 'model/keypoint_classifier/keypoint_image_dynamic.csv'
     with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile) 
+
         for row in csvreader:
             if len(row) < 2:
                 continue
             normalized_csv_word = unidecode(row[0].lower())
             normalized_gesture = unidecode(re.sub(r'[.,"\'-?¿:!;]', '', gesture).replace(" ", "").lower())
-            #print(normalized_csv_word)
-            #print(normalized_gesture)
+
             if normalized_csv_word == normalized_gesture:
-                #print(normalized_csv_word)
-                #print(normalized_gesture)
                 # The first column is the gesture number, so we skip that column
                 gesture_data[int(row[1])-1].append([float(cell) for cell in row[3:]])
-    #print(gesture_data)
+
     return gesture_data
 
 
 # Function to calculate the difference between real-time coordinates and reference coordinates
 def calculate_difference(gesture_data, landmarks_in_real_time):
-    # print(gesture_data)
-    # print(landmarks_in_real_time)
     try:
         if not gesture_data:
             return []
@@ -179,11 +175,14 @@ def get_keypoints_to_move(difference, treshold):
 # Calculate the magnitude of the Euclidean difference and return the mean of all the keypoints
 def get_keypoints_to_move_mean(difference):
     total = 0
+
     for i, (diff_x, diff_y) in enumerate(difference):
         diff_magnitude = (diff_x**2 + diff_y**2)**0.5
         if i == 19 or i == 17 or i == 15 or i == 21:
             total += diff_magnitude
+
     total /= 4
+
     return total
 
 
@@ -206,15 +205,15 @@ def determine_movement_direction(keypoints_to_move):
     return movement_direction
 
 
+# Function to compare each frame of a list of frames to get the ones that are closer to the right position
 def find_best_matching_frames(frames, target_frames, gesture):
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose()
     indexes = [0] * len(target_frames)
-    #hand_messages = [""] * len(target_frames)
     best_matches = [[]] * len(target_frames)
     best_matches_differences = [[]] * len(target_frames)
-
     frame_counter = 0
+
     for frame in frames:
         if frame.startswith('data:'):
             frame = re.sub('^data:image/.+;base64,', '', frame)
@@ -245,19 +244,12 @@ def find_best_matching_frames(frames, target_frames, gesture):
                     difference_best_match2 = get_keypoints_to_move_mean(difference_best_match)
                     if index == 0: 
                         difference_best_match2 = 10000.0
-                    #print(difference_best_match2)
-                    #print(difference_actual_frame2)
                     if difference_actual_frame2  < difference_best_match2:
-                        # hand_message, fingers_done = static_model(frame, gesture,THUMB_TRESHOLD, INDEX_TRESHOLD, MIDDLE_TRESHOLD, RING_TRESHOLD, PINKY_TRESHOLD, index=index, dynamic=True)
-                        # if hand_message == "No hay mano detectada":
-                        #     continue
                         best_matches[index] = pre_processed_landmark_list
                         best_matches_differences[index] = difference_actual_frame
                         indexes[index] = frame_counter
-                        #hand_messages[index] = hand_message
                 index += 1
         frame_counter += 1
-    #return best_matches_differences, hand_messages
-    #print(best_matches_differences)
+        
     return best_matches_differences
 
